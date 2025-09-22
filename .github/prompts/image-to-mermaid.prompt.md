@@ -27,29 +27,31 @@ flow_accuracy_requirements:
 node_type_identification:
   - Yellow ovals: Start and end nodes
   - Pink/Magenta diamonds: Decision points with yes/no branches
-  - Green rectangles: Process/action nodes
+  - Green rectangles: Comment nodes
+  - Action nodes: White or transparent rectangles
   - Other colored rectangles: Integration/system nodes
   - Identify and preserve the exact shape-to-function mapping
 
 integration_specific_requirements:
   - Capture ALL system-specific terminology (Kroton, Estácio, etc.)
-  - Include ALL educational modalities mentioned (Semipresencial, Prand, etc.)
+  - Include ALL educational modalities mentioned (Semipresencial, Presencial, etc.)
   - Preserve ALL integration workflow steps
   - Maintain parallel processing for different systems
   - Include ALL validation and confirmation steps
 
 mermaid_syntax_requirements:
-  - Use `flowchart TD` for top-down direction
+  - Use `flowchart RL` for top-down direction
   - Define comprehensive CSS classes for styling
   - Use subgraphs to organize related processes
   - Apply consistent node naming conventions
-  - Include descriptive comments in the code
+  - Include the descriptive comments in the code as in the original image
 
 styling_specifications:
   colors:
     - startEnd: Warm beige/yellow tones (#FFE4B5, #DEB887)
     - decision: Soft pink/magenta (#FFB6C1, #FF69B4)
-    - process: Light green (#E0FFE0, #90EE90)
+    - comment: Light green (#E0FFE0, #90EE90)
+    - action: White (#E0FFE0, rgba(226, 228, 223, 0.84))
     - integration: Lavender/purple (#E6E6FA, #DDA0DD)
     - system: Light blue (#F0F8FF, #87CEEB)
     - warning: Light coral (#FFE4E1, #FFA07A)

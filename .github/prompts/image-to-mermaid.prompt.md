@@ -1,5 +1,34 @@
 ---
 mode: 'agent'
----
-Generate a mermaid diagram into #file:fluxo-inscricoes.md based on the image provided in #file:fluxo-inscricoes.png, both are in #folder:src. The image contains a diagram or flowchart that needs to be converted into Mermaid syntax. Please analyze the image and produce the corresponding mermaid code.
-The diagram begins with the text "Aluno se interessa pela bolsa (CTA - Quero essa bolsa)" and ends with "Fim". Ensure that the mermaid code accurately represents the and flow of the original diagram. Keep all the original text and idioms used in the image when converting to Mermaid diagram. Use pastel colors and emoticons to enhance the visual appeal of the diagram. Use also subgraphs if necessary to improve the organization and readability of the diagram. 
+goal: "Convert a flowchart image to Mermaid diagram syntax"
+input:
+  source_image: '#file:fluxo-inscricoes.png'
+  output_file: '#file:fluxo-inscricoes.md'
+  location: '#folder:src'
+
+requirements:
+  - Analyze flowchart starting with "Aluno se interessa pela bolsa (CTA - Quero essa bolsa)" and ending with "Fim"
+  - Maintain original Portuguese text and terminology
+  - Preserve exact process flow and logic
+  - Use native Mermaid flowchart syntax
+
+styling:
+  colors:
+    - Use pastel color palette for nodes and connections
+    - Apply consistent color coding for different node types
+  enhancements:
+    - Add relevant emoticons to nodes
+    - Implement subgraphs for logical grouping
+    - Ensure clear visual hierarchy
+
+output_format:
+  - Valid Mermaid flowchart syntax
+  - Properly indented and organized code
+  - Include flowchart direction declaration
+  - Document any complex logic or conditions
+
+validation:
+  - Verify all nodes are connected correctly
+  - Confirm text matches source exactly
+  - Test diagram renders properly
+  - Ensure complete flow from start to end

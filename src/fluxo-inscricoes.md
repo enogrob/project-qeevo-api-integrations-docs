@@ -184,10 +184,10 @@ flowchart TD
     SUCCESS -.-> RES_COMMENT3
     REJECT -.-> RES_COMMENT3
     
-    %% Estilização dos subgrafos para organização visual
-    style ESTACIO fill:#E6FFE6,stroke:#32CD32,stroke-width:2px
-    style KROTON fill:#FFE6E6,stroke:#FF4500,stroke-width:2px
-    style RESULTADOS fill:#FFFACD,stroke:#DAA520,stroke-width:2px
+    %% Estilização dos subgrafos com transparência para não ocultar linhas
+    style ESTACIO fill:transparent,stroke:#32CD32,stroke-width:2px
+    style KROTON fill:transparent,stroke:#FF4500,stroke-width:2px
+    style RESULTADOS fill:transparent,stroke:#DAA520,stroke-width:2px
 ```
 
 ## 📋 Accuracy Validation Checklist

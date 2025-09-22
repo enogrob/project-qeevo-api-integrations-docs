@@ -1,161 +1,134 @@
-# Fluxo de Inscrições - Diagrama de Processo
+# Fluxo de Inscrições 📝
 
-## Visão Geral
-Este documento apresenta o fluxo completo do processo de inscrições, convertido do diagrama original para formato Mermaid para facilitar manutenção e versionamento.
-
-## Diagrama do Fluxo de Inscrições
+Este diagrama representa o fluxo completo do processo de inscrições, desde o interesse inicial do aluno até a finalização do processo.
 
 ```mermaid
 flowchart TD
-    Start([🚀 Início]) --> Decision1{🤔 Decisão 1}
+    %% Definindo estilos com cores pastel
+    classDef startEnd fill:#FFE4E1,stroke:#FF69B4,stroke-width:2px,color:#000
+    classDef decision fill:#FFB6C1,stroke:#FF1493,stroke-width:2px,color:#000
+    classDef process fill:#E0FFE0,stroke:#32CD32,stroke-width:2px,color:#000
+    classDef integration fill:#E6E6FA,stroke:#9370DB,stroke-width:2px,color:#000
+    classDef warning fill:#FFF8DC,stroke:#DAA520,stroke-width:2px,color:#000
     
-    %% Entrada e Validação Inicial
-    subgraph "🔍 Validação de Entrada"
-        Decision1 -->|✅ Sim| Process1[⚙️ Processo 1]
-        Decision1 -->|❌ Não| Decision2{📋 Validação Inicial}
-        Process1 --> Decision3{📝 Tipo de Inscrição}
-        Decision2 -->|✅ Válido| Decision3
-        Decision2 -->|⚠️ Inválido| Error1[❌ Erro - Dados Inválidos]
+    %% Início do fluxo
+    START["🎯 Aluno se interessa pela bolsa<br/>(CTA - Quero essa bolsa)"]:::startEnd
+    
+    %% Subgrafo para processo inicial
+    subgraph INITIAL ["📋 Processo Inicial"]
+        D1{"🤔 Dados do aluno<br/>estão completos?"}:::decision
+        FORM["📝 Preencher<br/>formulário"]:::process
+        VALIDATE["✅ Validar<br/>dados"]:::process
     end
     
-    %% Processamento Tipo A
-    subgraph "🔵 Fluxo Inscrição Tipo A"
-        Decision3 -->|🅰️ Tipo A| ProcessA[🔄 Processar Tipo A]
-        ProcessA --> API1[📡 API Call 1]
-        API1 --> API2[📡 API Call 2]
-        API2 --> API3[📡 API Call 3]
-        API3 --> Decision4{🔍 Status OK?}
-        Decision4 -->|✅ Sim| Success1[🎉 Sucesso A]
-        Decision4 -->|🔄 Não| Retry1[🔁 Tentar Novamente]
-        Retry1 --> API1
+    %% Subgrafo para verificações
+    subgraph VERIFICATION ["🔍 Verificações"]
+        D2{"📊 Atende aos<br/>critérios?"}:::decision
+        D3{"💰 Possui<br/>bolsa ativa?"}:::decision
+        D4{"🎓 Curso<br/>disponível?"}:::decision
     end
     
-    %% Processamento Tipo B
-    subgraph "🟢 Fluxo Inscrição Tipo B"
-        Decision3 -->|🅱️ Tipo B| ProcessB[🔄 Processar Tipo B]
-        ProcessB --> Decision5{✅ Validação B}
-        Decision5 -->|✅ Válido| API4[📡 API Call B1]
-        Decision5 -->|⚠️ Inválido| Error2[❌ Erro Tipo B]
-        API4 --> API5[📡 API Call B2]
-        API5 --> Success2[🎉 Sucesso B]
+    %% Subgrafo para integrações
+    subgraph INTEGRATIONS ["🔗 Integrações"]
+        INT1["🏫 Integração<br/>Estácio"]:::integration
+        INT2["📚 Integração<br/>Kroton"]:::integration
+        LEAD1["👤 Envio Lead<br/>Estácio"]:::integration
+        LEAD2["👤 Envio Lead<br/>Kroton"]:::integration
     end
     
-    %% Processamento Tipo C (Caso exista)
-    subgraph "🟣 Fluxo Inscrição Tipo C"
-        Decision3 -->|🅲 Tipo C| ProcessC[🔄 Processar Tipo C]
-        ProcessC --> API6[📡 API Call C1]
-        API6 --> Decision6{🔎 Verificação}
-        Decision6 -->|✅ Aprovado| API7[📡 API Call C2]
-        Decision6 -->|❌ Rejeitado| Error3[❌ Erro Tipo C]
-        API7 --> Success3[🎉 Sucesso C]
+    %% Subgrafo para processamento
+    subgraph PROCESSING ["⚙️ Processamento"]
+        PROC1["📤 Processar<br/>solicitação"]:::process
+        PROC2["📨 Gerar<br/>protocolo"]:::process
+        PROC3["🔔 Enviar<br/>notificação"]:::process
     end
     
-    %% Fluxos Especiais
-    subgraph "⭐ Processamento Especial"
-        Decision1 -->|🔀 Fluxo Alternativo| Decision7{🎯 Condição Especial}
-        Decision7 -->|✅ Sim| Decision8{🔍 Sub-condição 1}
-        Decision7 -->|❌ Não| Decision9{🔍 Sub-condição 2}
-        
-        Decision8 -->|🅰️ A| API8[📡 API Especial A]
-        Decision8 -->|🅱️ B| API9[📡 API Especial B]
-        Decision9 -->|❌ X| ProcessX[⚙️ Processo X]
-        Decision9 -->|🆈 Y| ProcessY[⚙️ Processo Y]
-        
-        API8 --> Success4[🎉 Sucesso Especial A]
-        API9 --> Success5[🎉 Sucesso Especial B]
-        ProcessX --> Decision10{🏁 Final X?}
-        ProcessY --> Decision11{🏁 Final Y?}
-        
-        Decision10 -->|✅ Sim| Success6[🎉 Sucesso X]
-        Decision10 -->|❌ Não| Error4[❌ Erro X]
-        Decision11 -->|✅ Sim| Success7[🎉 Sucesso Y]
-        Decision11 -->|❌ Não| Error5[❌ Erro Y]
+    %% Subgrafo para finalização
+    subgraph FINALIZATION ["✅ Finalização"]
+        D5{"📋 Inscrição<br/>aprovada?"}:::decision
+        SUCCESS["🎉 Sucesso<br/>Inscrição realizada"]:::process
+        REJECT["❌ Rejeição<br/>Critérios não atendidos"]:::warning
+        CONTACT["📞 Contato<br/>para esclarecimentos"]:::process
     end
     
-    %% Finalização
-    subgraph "🏆 Estados Finais"
-        Success1 --> End([🏁 Fim])
-        Success2 --> End
-        Success3 --> End
-        Success4 --> End
-        Success5 --> End
-        Success6 --> End
-        Success7 --> End
-        Error1 --> End
-        Error2 --> End
-        Error3 --> End
-        Error4 --> End
-        Error5 --> End
-    end
+    %% Final
+    END["🏁 Fim"]:::startEnd
     
-    %% Styling - Pastel Colors
-    classDef startEnd fill:#FFF8DC,stroke:#DDA0DD,stroke-width:3px,color:#8B4513
-    classDef decision fill:#FFEEE6,stroke:#FFB6C1,stroke-width:2px,color:#8B0000
-    classDef process fill:#F0F8FF,stroke:#B0E0E6,stroke-width:2px,color:#4169E1
-    classDef api fill:#F0FFF0,stroke:#90EE90,stroke-width:2px,color:#228B22
-    classDef success fill:#F5FFFA,stroke:#98FB98,stroke-width:3px,color:#006400
-    classDef error fill:#FFF0F5,stroke:#FFB6C1,stroke-width:2px,color:#DC143C
-    classDef special fill:#F8F8FF,stroke:#DDA0DD,stroke-width:2px,color:#9370DB
+    %% Fluxo principal
+    START --> D1
+    D1 -->|❌ Não| FORM
+    D1 -->|✅ Sim| VALIDATE
+    FORM --> VALIDATE
+    VALIDATE --> D2
     
-    class Start,End startEnd
-    class Decision1,Decision2,Decision3,Decision4,Decision5,Decision6,Decision7,Decision8,Decision9,Decision10,Decision11 decision
-    class Process1,ProcessA,ProcessB,ProcessC,ProcessX,ProcessY process
-    class API1,API2,API3,API4,API5,API6,API7,API8,API9 api
-    class Success1,Success2,Success3,Success4,Success5,Success6,Success7 success
-    class Error1,Error2,Error3,Error4,Error5 error
+    D2 -->|❌ Não| REJECT
+    D2 -->|✅ Sim| D3
+    
+    D3 -->|❌ Não| D4
+    D3 -->|✅ Sim| CONTACT
+    
+    D4 -->|❌ Não| CONTACT
+    D4 -->|✅ Sim| INT1
+    D4 -->|✅ Sim| INT2
+    
+    INT1 --> LEAD1
+    INT2 --> LEAD2
+    
+    LEAD1 --> PROC1
+    LEAD2 --> PROC1
+    
+    PROC1 --> PROC2
+    PROC2 --> PROC3
+    PROC3 --> D5
+    
+    D5 -->|✅ Sim| SUCCESS
+    D5 -->|❌ Não| REJECT
+    
+    SUCCESS --> END
+    REJECT --> END
+    CONTACT --> END
+    
+    %% Estilos dos subgrafos
+    style INITIAL fill:#F0F8FF,stroke:#4169E1,stroke-width:2px
+    style VERIFICATION fill:#F5FFFA,stroke:#2E8B57,stroke-width:2px
+    style INTEGRATIONS fill:#FFF5EE,stroke:#FF4500,stroke-width:2px
+    style PROCESSING fill:#F8F8FF,stroke:#6A5ACD,stroke-width:2px
+    style FINALIZATION fill:#FFFACD,stroke:#DAA520,stroke-width:2px
 ```
 
-## Descrição dos Componentes
+## 📝 Descrição do Fluxo
 
-### 🚀 Pontos de Início e Fim (Losangos Creme)
-- **🚀 Início**: Ponto de entrada do fluxo de inscrições
-- **🏁 Fim**: Ponto final unificado para todos os fluxos
+### 🎯 Início
+O processo inicia quando o aluno demonstra interesse pela bolsa através do CTA "Quero essa bolsa".
 
-### 🤔 Pontos de Decisão (Losangos Rosa Pastel)
-- **🤔 Decisão 1**: Ponto de entrada principal do fluxo
-- **📋 Validação Inicial**: Validação inicial dos dados
-- **📝 Tipo de Inscrição**: Classificação do tipo de inscrição
-- **🔍 Validações Específicas**: Validações específicas por tipo de processo
+### 📋 Processo Inicial
+1. **Verificação de dados**: Verifica se os dados do aluno estão completos
+2. **Preenchimento de formulário**: Caso necessário, solicita preenchimento de dados faltantes
+3. **Validação**: Valida os dados fornecidos
 
-### ⚙️ Processos (Retângulos Azul Pastel)
-- **⚙️ Processo 1**: Processamento inicial
-- **🔄 Processamento A/B/C**: Processamento específico por tipo
-- **⚙️ Processos X/Y**: Processos alternativos
+### 🔍 Verificações
+- **Critérios**: Verifica se o aluno atende aos critérios estabelecidos
+- **Bolsa ativa**: Confirma se não possui bolsa ativa
+- **Disponibilidade do curso**: Verifica se o curso está disponível
 
-### 📡 APIs/Integrações (Retângulos Verde Pastel)
-- **📡 API Calls 1-9**: Chamadas para sistemas externos
-- Representam integrações com sistemas de terceiros
-- Incluem validações, envio de dados e confirmações
+### 🔗 Integrações
+O sistema integra com:
+- **Estácio**: Envio de leads para a instituição Estácio
+- **Kroton**: Envio de leads para a instituição Kroton
 
-### Estados Finais
-- **🎉 Success 1-7**: Estados de sucesso para cada fluxo
-- **❌ Error 1-5**: Estados de erro com diferentes causas
-- **🏁 End**: Ponto final unificado
+### ⚙️ Processamento
+1. **Processamento da solicitação**: Processa os dados da inscrição
+2. **Geração de protocolo**: Cria protocolo de acompanhamento
+3. **Envio de notificação**: Notifica o aluno sobre o status
 
-## Regras de Negócio Identificadas
+### ✅ Finalização
+- **Aprovação**: Inscrição aprovada com sucesso
+- **Rejeição**: Inscrição rejeitada por não atender critérios
+- **Contato**: Necessidade de esclarecimentos adicionais
 
-1. **Validação Múltipla**: O sistema possui várias camadas de validação
-2. **Tipos de Inscrição**: Diferentes tipos (A, B, C) com fluxos específicos
-3. **Retry Logic**: Sistema de retry para falhas em APIs
-4. **Fluxos Alternativos**: Caminhos especiais para condições específicas
-5. **Convergência**: Todos os fluxos convergem para um ponto final comum
-
-## Integrações Identificadas
-
-Com base no diagrama, o sistema integra com:
-- APIs externas para validação de dados
-- Sistemas de processamento de inscrições
-- Serviços de verificação e aprovação
-- APIs de confirmação e notificação
-
-## Próximos Passos
-
-1. Mapear as APIs específicas mencionadas no diagrama
-2. Documentar os payloads de cada integração
-3. Definir os códigos de erro e success
-4. Especificar os tempos de timeout e retry
-5. Documentar os tipos de inscrição (A, B, C)
+### 🏁 Fim
+Término do processo de inscrição.
 
 ---
 
-*Diagrama convertido do arquivo original `fluxo_inscricoes.pdf` para formato Mermaid*
+*Este fluxo representa o processo completo de inscrições, garantindo que todas as etapas sejam seguidas corretamente e que as integrações funcionem adequadamente.*

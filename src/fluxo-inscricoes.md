@@ -52,17 +52,22 @@ flowchart RL
         KRO_SEMI["🎓 Semipresencial"]:::integration
         KRO_PRAND["🏢 Prand"]:::integration
         KRO_PRES["🏛️ Presencial"]:::integration
+        
+        %% Cron Job que estava faltando
+        CRON_JOB["⏰ Cron Job<br/>sync course"]:::system
+        
         KRO_PROC["📊 Processar<br/>Kroton"]:::integration
         KRO_VALID{"✅ Kroton<br/>OK?"}:::decision
         KRO_SEND["📤 Enviar<br/>Kroton"]:::integration
         KRO_RESPONSE["📨 Resposta<br/>Kroton"]:::integration
         KRO_LEAD["👤 Lead<br/>Kroton"]:::integration
         
-        %% Comentários Kroton (caixas verdes)
+        %% Comentários Kroton (caixas verdes) incluindo o do Cron Job
         KRO_C1["Modalidade<br/>semipresencial"]:::comment
         KRO_C2["Modalidade<br/>Prand"]:::comment
         KRO_C3["Modalidade<br/>presencial"]:::comment
         KRO_C4["Processamento<br/>por modalidade"]:::comment
+        CRON_COMMENT["Essa rotina a cada 3h pegando,<br/>do BD da IES, os dias de aula<br/>presencial dos cursos Semi."]:::comment
     end
     
     %% Convergência e resultados
@@ -123,6 +128,10 @@ flowchart RL
     D7 -->|Sim| KRO_PRAND
     D7 -->|Sim| KRO_PRES
     D7 -->|Não| CONV_KRO
+    
+    %% Cron Job conectado às modalidades Kroton
+    CRON_JOB --> KRO_SEMI
+    
     KRO_SEMI --> KRO_PROC
     KRO_PRAND --> KRO_PROC
     KRO_PRES --> KRO_PROC
@@ -162,31 +171,9 @@ flowchart RL
     KRO_PRAND -.-> KRO_C2
     KRO_PRES -.-> KRO_C3
     KRO_PROC -.-> KRO_C4
+    CRON_JOB -.-> CRON_COMMENT
     
     %% Estilização dos subgrafos sem background para não ocultar linhas
     style ESTACIO fill:transparent,stroke:#32CD32,stroke-width:2px
     style KROTON fill:transparent,stroke:#FF4500,stroke-width:2px
 ```
-
-## 📋 Accuracy Validation Checklist
-
-### ✅ Text Accuracy
-- [x] Every visible text element captured exactly as shown
-- [x] No generic terms used where specific ones exist  
-- [x] All Portuguese text preserved without translation
-- [x] Technical terms "Semipresencial", "Prand", "Presencial" included exactly
-- [x] System names "Estácio" and "Kroton" preserved exactly
-
-### ✅ Flow Accuracy  
-- [x] All decision points have correct Sim/Não branching logic
-- [x] All parallel processes for Estácio and Kroton maintained
-- [x] Integration workflows complete with all validation steps
-- [x] Start "Aluno se interessa pela bolsa" and end "Fim" match exactly
-- [x] All 13 comment boxes included as annotation nodes
-
-### ✅ Visual Accuracy
-- [x] Yellow ovals for start/end, pink diamonds for decisions, green rectangles for comments
-- [x] White/transparent rectangles for action nodes, colored rectangles for integrations
-- [x] Subgraph organization with transparent backgrounds to show all connections
-- [x] Right-to-left flow direction using `flowchart RL` as specified
-- [x] All connections and arrows preserved with proper Sim/Não labels

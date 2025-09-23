@@ -1,0 +1,45 @@
+
+flowchart LR
+    %% Start
+    INICIO(["Aluno se interessa pela bolsa (CTA - Quero esta bolsa)"]) 
+    FIM(["Fim"])
+    LEAD(["Lead 'Vendido'"])
+
+    AC1["Assina o contrato"]
+    AC2["Envio dos documentos"]
+    AC3["Processo Seletivo"]
+    AC4["Assina o contrato"]
+    AC5["Envia dos documentos"]
+    AC6["Processo Seletivo"]
+
+    AC7["Cadastro (E-mail, CPF, Nome, Nascimento, Celular e CEP)"]
+    AC8["Aluno envia documentos"]
+    AC9["Rejeitar documentos"]
+    AC10["Matricula com dados do aluno"]
+    AC11["Aluno matriculado"]
+
+    AC12["Cron Job 'sync_course'"]
+    AC13["Popula BD de inscrições"]
+    AC14["Envio dos dados do Aluno para IES"]
+    AC15["Popula BD de inscrições"]
+    AC16["Envio dos dados do Aluno para IES"]
+    AC17["Reenvio dos dados automáticamente"]
+
+    AC18["Popula BD de inscrições"]
+    AC19["Envio dos dados do Aluno para Onetrust"]
+    AC20["Envio dos dados do Aluno para IES"]
+    AC21["ES nos avisa"]
+    AC22["Envio manual"]
+    AC23["Aluno recebe comprovante da bolsa"]
+    AC24["Matricula no balcão da IES"]
+
+    AC25["Popula BD de inscrições, mas separa com type captação"]
+    AC26["Envio dos leads para IES"]
+    AC27["Popula BD de inscrições, mas separa com codAgentPdv = 14412833"]
+    AC28["Envia dados do lead para Onetrust"]
+    AC29["Envio dodos dos leads para IES"]
+    AC30["Popula banco 'subscribe_bot"]
+    AC31["Envio do lead para a IES"]
+
+
+    

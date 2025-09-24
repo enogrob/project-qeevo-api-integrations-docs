@@ -253,20 +253,3 @@ flowchart TD
     
     %% Final Lead Flow
     LEAD_SOLD --> FIM
-    
-    %% Styling with borders only - no background fills
-    classDef startEndNodes stroke:#388E3C,stroke-width:3px,color:#000
-    classDef processNodes stroke:#F57C00,stroke-width:2px,color:#000
-    classDef decisionNodes stroke:#1976D2,stroke-width:2px,color:#000
-    classDef integrationNodes stroke:#7B1FA2,stroke-width:2px,color:#000
-    classDef documentNodes stroke:#FFA000,stroke-width:2px,color:#000
-    classDef errorNodes stroke:#D32F2F,stroke-width:2px,color:#000
-    classDef systemNodes stroke:#689F38,stroke-width:2px,color:#000
-    
-    class INICIO,FIM,LEAD_SOLD startEndNodes
-    class CADASTRO,ENROLL_DATA,STUDENT_ENROLLED,VOUCHER,CAMPUS_ENROLL processNodes
-    class PAYMENT_CHECK,DIGITAL_ADMISSION,API_CHECK,DOC_CHECK,CONFIG_CHECK,ADMISSION_CHECK,ENROLL_CHECK,INTEGRATION_TYPE,API_INTEGRATION,KROTON_CHECK,KROTON_MODE,KROTON_ERROR_1,ESTACIO_ERROR decisionNodes
-    class KROTON_BD_1,KROTON_BD_2,ESTACIO_BD,CRAWLER_BD,LEAD_BD_KROTON,LEAD_BD_ESTACIO integrationNodes
-    class SEND_DOCS,REJECT_DOCS,CONTRACT_1,SEND_DOCS_1,CONTRACT_2,SEND_DOCS_2 documentNodes
-    class KROTON_RETRY,MANUAL_SEND errorNodes
-    class SYNC_COURSE,KROTON_SEND_1,KROTON_SEND_2,ONETRUST,ESTACIO_SEND,CRAWLER_SEND,LEAD_ONETRUST,LEAD_SEND_KROTON,LEAD_SEND_ESTACIO,IES_NOTIFICATION,SELECTIVE_1,SELECTIVE_2 systemNodes

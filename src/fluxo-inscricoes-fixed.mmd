@@ -1,3 +1,22 @@
+%%{init: {
+    "theme": "base",
+    "themeVariables": {
+        "fontFamily": "arial",
+        "fontSize": "12px",
+        "primaryColor": "#ffffff",
+        "primaryTextColor": "#2c3e50",
+        "primaryBorderColor": "#34495e",
+        "lineColor": "#34495e",
+        "sectionBkgColor": "transparent",
+        "altSectionBkgColor": "transparent",
+        "gridColor": "#ecf0f1",
+        "c0": "#ecf0f1",
+        "c1": "#bdc3c7",
+        "c2": "#95a5a6",
+        "c3": "#7f8c8d"
+    }
+}}%%
+
 flowchart TD
     
     subgraph SG1 ["🎯 Student Journey"]
@@ -252,3 +271,47 @@ flowchart TD
     
     %% Final Lead Flow
     LEAD_SOLD --> FIM
+    
+    %% ===== STYLING SECTION =====
+    %% Custom color scheme as requested
+    
+    %% Start/End nodes - Yellow
+    classDef startEndClass fill:#fff3cd,stroke:#ffc107,stroke-width:3px,color:#856404
+    
+    %% Decision/IF nodes - Pink (more vibrant pink)
+    classDef decisionClass fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    
+    %% Action/Process nodes - Grey
+    classDef actionClass fill:#e9ecef,stroke:#6c757d,stroke-width:2px,color:#495057
+    
+    %% Comment/Document nodes - Green
+    classDef commentClass fill:#d4edda,stroke:#28a745,stroke-width:2px,color:#155724
+    
+    %% Integration nodes - Light Blue (for database/integration operations)
+    classDef integrationClass fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px,color:#0c5460
+    
+    %% Error nodes - Red
+    classDef errorClass fill:#f5c6cb,stroke:#dc3545,stroke-width:2px,color:#721c24
+    
+    %% Apply classes to nodes
+    class INICIO,FIM,LEAD_SOLD startEndClass
+    class PAYMENT_CHECK,DIGITAL_ADMISSION,API_CHECK,DOC_CHECK,CONFIG_CHECK,ADMISSION_CHECK,ENROLL_CHECK,INTEGRATION_TYPE,API_INTEGRATION,KROTON_CHECK,KROTON_MODE,KROTON_ERROR_1,ESTACIO_ERROR decisionClass
+    class CADASTRO,ENROLL_DATA,STUDENT_ENROLLED,VOUCHER,CAMPUS_ENROLL,SYNC_COURSE,KROTON_SEND_1,KROTON_SEND_2,ESTACIO_SEND,CRAWLER_SEND,LEAD_SEND_KROTON,LEAD_SEND_ESTACIO,IES_NOTIFICATION,SELECTIVE_1,SELECTIVE_2 actionClass
+    class SEND_DOCS,REJECT_DOCS,CONTRACT_1,SEND_DOCS_1,CONTRACT_2,SEND_DOCS_2,ONETRUST,LEAD_ONETRUST commentClass
+    class KROTON_BD_1,KROTON_BD_2,ESTACIO_BD,CRAWLER_BD,LEAD_BD_KROTON,LEAD_BD_ESTACIO integrationClass
+    class KROTON_RETRY,MANUAL_SEND errorClass
+    
+    %% Force pink styling for decision nodes (override any theme conflicts)
+    style PAYMENT_CHECK fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style DIGITAL_ADMISSION fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style API_CHECK fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style DOC_CHECK fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style CONFIG_CHECK fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style ADMISSION_CHECK fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style ENROLL_CHECK fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style INTEGRATION_TYPE fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style API_INTEGRATION fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style KROTON_CHECK fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style KROTON_MODE fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style KROTON_ERROR_1 fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f
+    style ESTACIO_ERROR fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#880e4f

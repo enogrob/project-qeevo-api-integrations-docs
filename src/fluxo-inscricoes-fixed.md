@@ -335,15 +335,15 @@ flowchart TD
     style SELECTIVE_2 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
     style IES_NOTIFICATION fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
     
-    %% Enhanced Subgraph Styling for Better Differentiation
-    style SG1 fill:#fffacd,stroke:#daa520,stroke-width:3px
-    style SG2 fill:#e6f3ff,stroke:#4682b4,stroke-width:3px
-    style SG3 fill:#f0f8f0,stroke:#228b22,stroke-width:3px
-    style SG4 fill:#fff0f5,stroke:#db7093,stroke-width:3px
-    style SG5 fill:#f5f5dc,stroke:#8b7d6b,stroke-width:3px
-    style SG6 fill:#e0ffff,stroke:#20b2aa,stroke-width:3px
-    style SG7 fill:#ffefd5,stroke:#ff8c00,stroke-width:3px
-    style SG8 fill:#f5f0ff,stroke:#9370db,stroke-width:3px
-    style SG9 fill:#ffe4e1,stroke:#cd5c5c,stroke-width:3px
-    style SG10 fill:#f0f0f0,stroke:#696969,stroke-width:3px
+    %% Enhanced Subgraph Border Lines Only
+    style SG1 stroke:#daa520,stroke-width:3px
+    style SG2 stroke:#4682b4,stroke-width:3px
+    style SG3 stroke:#228b22,stroke-width:3px
+    style SG4 stroke:#db7093,stroke-width:3px
+    style SG5 stroke:#8b7d6b,stroke-width:3px
+    style SG6 stroke:#20b2aa,stroke-width:3px
+    style SG7 stroke:#ff8c00,stroke-width:3px
+    style SG8 stroke:#9370db,stroke-width:3px
+    style SG9 stroke:#cd5c5c,stroke-width:3px
+    style SG10 stroke:#696969,stroke-width:3px
     ```

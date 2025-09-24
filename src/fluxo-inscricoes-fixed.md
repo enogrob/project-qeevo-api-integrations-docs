@@ -274,13 +274,13 @@ flowchart TD
     COMMENT7 -.-> ESTACIO_ERROR
     
     %% Styling for green comment nodes
-    style COMMENT1 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#000000
-    style COMMENT2 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#000000
-    style COMMENT3 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#000000
-    style COMMENT4 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#000000
-    style COMMENT5 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#000000
-    style COMMENT6 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#000000
-    style COMMENT7 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#000000
+    style COMMENT1 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#ffffff
+    style COMMENT2 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#ffffff
+    style COMMENT3 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#ffffff
+    style COMMENT4 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#ffffff
+    style COMMENT5 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#ffffff
+    style COMMENT6 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#ffffff
+    style COMMENT7 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#ffffff
     
     %% Pastel Pink for IF/Decision nodes
     style PAYMENT_CHECK fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
@@ -334,4 +334,16 @@ flowchart TD
     style SEND_DOCS_2 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
     style SELECTIVE_2 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
     style IES_NOTIFICATION fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    
+    %% Enhanced Subgraph Styling for Better Differentiation
+    style SG1 fill:#fffacd,stroke:#daa520,stroke-width:3px
+    style SG2 fill:#e6f3ff,stroke:#4682b4,stroke-width:3px
+    style SG3 fill:#f0f8f0,stroke:#228b22,stroke-width:3px
+    style SG4 fill:#fff0f5,stroke:#db7093,stroke-width:3px
+    style SG5 fill:#f5f5dc,stroke:#8b7d6b,stroke-width:3px
+    style SG6 fill:#e0ffff,stroke:#20b2aa,stroke-width:3px
+    style SG7 fill:#ffefd5,stroke:#ff8c00,stroke-width:3px
+    style SG8 fill:#f5f0ff,stroke:#9370db,stroke-width:3px
+    style SG9 fill:#ffe4e1,stroke:#cd5c5c,stroke-width:3px
+    style SG10 fill:#f0f0f0,stroke:#696969,stroke-width:3px
     ```

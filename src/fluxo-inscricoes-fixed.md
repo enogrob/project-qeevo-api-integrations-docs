@@ -281,4 +281,57 @@ flowchart TD
     style COMMENT5 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#000000
     style COMMENT6 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#000000
     style COMMENT7 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#000000
+    
+    %% Pastel Pink for IF/Decision nodes
+    style PAYMENT_CHECK fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style DIGITAL_ADMISSION fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style API_CHECK fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style DOC_CHECK fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style INTEGRATION_TYPE fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style API_INTEGRATION fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style KROTON_CHECK fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style KROTON_MODE fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style KROTON_ERROR_1 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style ESTACIO_ERROR fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style CONFIG_CHECK fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style ADMISSION_CHECK fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style ENROLL_CHECK fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    
+    %% Pastel Yellow for START/END nodes
+    style INICIO fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000000
+    style FIM fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000000
+    style LEAD_SOLD fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000000
+    
+    %% Pastel Grey for ACTION nodes
+    style CADASTRO fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style SEND_DOCS fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style REJECT_DOCS fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style ENROLL_DATA fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style STUDENT_ENROLLED fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style VOUCHER fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style CAMPUS_ENROLL fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style SYNC_COURSE fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style KROTON_BD_1 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style KROTON_SEND_1 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style KROTON_RETRY fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style KROTON_BD_2 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style KROTON_SEND_2 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style ESTACIO_BD fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style ONETRUST fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style ESTACIO_SEND fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style MANUAL_SEND fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style CRAWLER_BD fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style CRAWLER_SEND fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style LEAD_BD_KROTON fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style LEAD_ONETRUST fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style LEAD_SEND_KROTON fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style LEAD_BD_ESTACIO fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style LEAD_SEND_ESTACIO fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style CONTRACT_1 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style SEND_DOCS_1 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style SELECTIVE_1 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style CONTRACT_2 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style SEND_DOCS_2 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style SELECTIVE_2 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style IES_NOTIFICATION fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
     ```

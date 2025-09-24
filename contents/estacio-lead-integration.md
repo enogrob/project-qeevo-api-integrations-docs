@@ -27,19 +27,19 @@ Características principais incluem suporte para diferentes modalidades de curso
 
 ```mermaid
 flowchart TB
-    DB_Source[("Databricks<br/>Orders Import")]
-    Subscription[("Database<br/>Subscriptions Table")]
+    DB_Source[("📊 Databricks<br/>Orders Import")]
+    Subscription[("🗄️ Database<br/>Subscriptions Table")]
     
-    API["EstacioLeadIntegration<br/>Service"]
+    API["⚙️ EstacioLeadIntegration<br/>Service"]
     
-    SyncLGPD["SyncLGPD Jobs<br/>QB & QC"]
-    Register["Register Jobs<br/>QB & QC"]
+    SyncLGPD["🔒 SyncLGPD Jobs<br/>QB & QC"]
+    Register["📝 Register Jobs<br/>QB & QC"]
     
-    OneTrust["OneTrust API<br/>LGPD Compliance"]
-    Estacio["Estácio API<br/>Enrollment System"]
+    OneTrust["🛡️ OneTrust API<br/>LGPD Compliance"]
+    Estacio["🎓 Estácio API<br/>Enrollment System"]
     
-    FollowUps[("FollowUps Table<br/>Status Tracking")]
-    Courses[("Courses<br/>Dictionary")]
+    FollowUps[("📋 FollowUps Table<br/>Status Tracking")]
+    Courses[("📚 Courses<br/>Dictionary")]
     
     DB_Source --> Subscription
     Subscription --> SyncLGPD
@@ -57,9 +57,9 @@ flowchart TB
     Register --> |registered| FollowUps
     Register --> |register_failed| Subscription
     
-    classDef external fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef internal fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef database fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef external fill:#fce4ec,stroke:#ad1457,stroke-width:2px,color:#000000
+    classDef internal fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000000
+    classDef database fill:#e8f5e8,stroke:#388e3c,stroke-width:2px,color:#000000
     
     class OneTrust,Estacio external
     class API,SyncLGPD,Register internal

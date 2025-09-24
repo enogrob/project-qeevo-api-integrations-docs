@@ -26,44 +26,112 @@ Características principais incluem suporte para diferentes modalidades de curso
 ## Arquitetura
 
 ```mermaid
-flowchart TB
-    DB_Source[("📊 Databricks<br/>Orders Import")]
-    Subscription[("🗄️ Database<br/>Subscriptions Table")]
+flowchart TD
+    subgraph "🎯 Quero Educação Ecosystem"
+        DB[("`�️ **PostgreSQL**
+        Database`")] 
+        DATABRICKS["`�📊 **Databricks**
+        Daily Orders Import`"]
+    end
     
-    API["⚙️ EstacioLeadIntegration<br/>Service"]
+    subgraph "🏗️ Estácio Integration Service"
+        API["`🚀 **API Server**
+        Node.js/TypeScript`"]
+        
+        subgraph "⚙️ Job Processors"
+            SYNC_LGPD_QB["`🔒 **SyncLGPD QB**
+            Quero Bolsa LGPD`"]
+            SYNC_LGPD_QC["`🔒 **SyncLGPD QC**  
+            Quero Curso LGPD`"]
+            REGISTER_QB["`📝 **Register QB**
+            Quero Bolsa Enrollment`"]
+            REGISTER_QC["`📝 **Register QC**
+            Quero Curso Enrollment`"]
+        end
+        
+        subgraph "🏪 Data Models"
+            SUBS["`📋 **Subscription**
+            Student Data`"]
+            COURSE["`🎓 **Courses**
+            Course Dictionary`"]
+            FOLLOWUP["`📈 **FollowUp**
+            Status Tracking`"]
+        end
+    end
     
-    SyncLGPD["🔒 SyncLGPD Jobs<br/>QB & QC"]
-    Register["📝 Register Jobs<br/>QB & QC"]
+    subgraph "🎓 Estácio Services"
+        ONETRUST["`🛡️ **OneTrust API**
+        LGPD Compliance`"]
+        ESTACIO_API["`�️ **Estácio API**
+        Enrollment System`"]
+    end
     
-    OneTrust["🛡️ OneTrust API<br/>LGPD Compliance"]
-    Estacio["🎓 Estácio API<br/>Enrollment System"]
+    subgraph "� External Services"
+        SLACK["`💬 **Slack**
+        Notifications`"]
+        LOCATION["`� **Location Service**
+        Municipality & District`"]
+    end
+
+    %% Main data flow
+    DATABRICKS -->|"`📥 Import orders
+    Status: to_sync_lgpd`"| DB
+    DB --> API
     
-    FollowUps[("📋 FollowUps Table<br/>Status Tracking")]
-    Courses[("📚 Courses<br/>Dictionary")]
+    %% LGPD processing flow
+    API --> SYNC_LGPD_QB
+    API --> SYNC_LGPD_QC
     
-    DB_Source --> Subscription
-    Subscription --> SyncLGPD
-    SyncLGPD --> OneTrust
-    OneTrust --> Subscription
-    Subscription --> Register
-    Register --> Estacio
-    Estacio --> FollowUps
-    Courses --> Register
+    SYNC_LGPD_QB -->|"`🔒 LGPD Consent
+    Chunks of 10, 150s interval`"| ONETRUST
+    SYNC_LGPD_QC -->|"`🔒 LGPD Consent
+    Every 2h, 6h-18h UTC`"| ONETRUST
     
-    Subscription --> |to_sync_lgpd| SyncLGPD
-    SyncLGPD --> |Success| Subscription
-    SyncLGPD --> |Failure| Subscription
-    Subscription --> |to_register| Register
-    Register --> |registered| FollowUps
-    Register --> |register_failed| Subscription
+    ONETRUST -->|"`✅ Status: to_register
+    ❌ Status: sync_lgpd_failed`"| DB
     
-    classDef external fill:#fce4ec,stroke:#ad1457,stroke-width:2px,color:#000000
-    classDef internal fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000000
-    classDef database fill:#e8f5e8,stroke:#388e3c,stroke-width:2px,color:#000000
+    %% Registration flow
+    API --> REGISTER_QB
+    API --> REGISTER_QC
     
-    class OneTrust,Estacio external
-    class API,SyncLGPD,Register internal
-    class Subscription,FollowUps,Courses,DB_Source database
+    REGISTER_QB -->|"`📝 Student enrollment
+    Chunks of 40, max 40/exec`"| ESTACIO_API
+    REGISTER_QC -->|"`📝 Student enrollment  
+    10h-14h UTC, hourly`"| ESTACIO_API
+    
+    ESTACIO_API -->|"`✅ Status: registered
+    ❌ Status: register_failed
+    📊 Create FollowUp`"| DB
+    
+    %% Support services
+    REGISTER_QB -.->|"`📍 Resolve codes
+    Municipality & District`"| LOCATION
+    REGISTER_QC -.->|"`📍 Resolve codes
+    Municipality & District`"| LOCATION
+    
+    %% Data relationships
+    API -.-> SUBS
+    API -.-> COURSE
+    API -.-> FOLLOWUP
+    
+    %% Notifications
+    API -->|"`📢 Job status
+    Cron schedules`"| SLACK
+    
+    %% Styling
+    classDef ecosystemNodes fill:#E8F4FD,stroke:#1976D2,stroke-width:2px,color:#000
+    classDef serviceNodes fill:#FFF3E0,stroke:#F57C00,stroke-width:2px,color:#000
+    classDef jobNodes fill:#E8F5E8,stroke:#388E3C,stroke-width:2px,color:#000
+    classDef dataNodes fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#000
+    classDef estacioNodes fill:#FFEBEE,stroke:#D32F2F,stroke-width:2px,color:#000
+    classDef externalNodes fill:#F1F8E9,stroke:#689F38,stroke-width:2px,color:#000
+    
+    class DB,DATABRICKS ecosystemNodes
+    class API serviceNodes
+    class SYNC_LGPD_QB,SYNC_LGPD_QC,REGISTER_QB,REGISTER_QC jobNodes
+    class SUBS,COURSE,FOLLOWUP dataNodes
+    class ONETRUST,ESTACIO_API estacioNodes
+    class SLACK,LOCATION externalNodes
 ```
 
 A arquitetura segue um padrão baseado em jobs com processamento em chunks para respeitar rate limits das APIs externas. O serviço principal (`EstacioLeadIntegration`) coordena múltiplos jobs que processam diferentes tipos de subscriptions (QB - Quero Bolsa, QC - Quero Curso). Cada job herda da classe base `Base` que implementa o padrão de chunking, interval processing e logging centralizado.
@@ -77,41 +145,74 @@ O sistema utiliza TypeORM para gerenciamento de entidades e migrations, com Post
 
 ```mermaid
 sequenceDiagram
-    participant DB as Databricks
-    participant Sub as Subscription
-    participant LGPD as SyncLGPD Job
-    participant OT as OneTrust API
-    participant Reg as Register Job
-    participant Est as Estácio API
-    participant FU as FollowUps
+    participant D as 📊 Databricks
+    participant DB as 🗄️ Database
+    participant API as 🚀 API Service
+    participant LGPD as 🔒 SyncLGPD Job
+    participant REG as 📝 Register Job
+    participant OT as 🛡️ OneTrust API
+    participant EA as 🏛️ Estácio API
+    participant FU as 📈 FollowUps
+    participant S as 💬 Slack
 
-    Note over DB,Sub: Dados de Produção (Diário)
-    DB->>Sub: Importar orders com status 'to_sync_lgpd'
+    Note over D,S: 🌅 Daily Data Import Process
+    D->>+DB: Import orders (status: to_sync_lgpd)
+    Note right of DB: 👥 New student subscriptions created
     
-    Note over LGPD,OT: Conformidade LGPD (A cada 2h, 6h-18h UTC)
-    LGPD->>Sub: Buscar subscriptions com status 'to_sync_lgpd'
-    Sub->>LGPD: Retornar subscriptions (chunks de 10)
-    LGPD->>OT: POST /consentimento com dados do aluno
-    alt Sucesso LGPD
-        OT->>LGPD: 200 OK
-        LGPD->>Sub: Atualizar status para 'to_register'
-    else Falha LGPD
-        OT->>LGPD: 4xx/5xx Error
-        LGPD->>Sub: Atualizar status para 'sync_lgpd_failed'
+    Note over D,S: 🔒 LGPD Compliance Phase
+    API->>+LGPD: Execute SyncLGPD (QB/QC)
+    Note right of LGPD: ⏰ Every 2h, 6h-18h UTC (3h-15h BRT)
+    LGPD->>DB: Fetch subscriptions (status: to_sync_lgpd)
+    
+    loop For each chunk (10 subscriptions, 150s interval)
+        LGPD->>+OT: POST /consentimento with student data
+        alt LGPD Success
+            OT-->>-LGPD: 200 OK - Consent recorded
+            LGPD->>DB: Update status to 'to_register'
+            Note right of DB: ✅ Ready for enrollment
+        else LGPD Failure
+            OT-->>LGPD: 4xx/5xx Error
+            LGPD->>DB: Update status to 'sync_lgpd_failed'
+            Note right of DB: ❌ LGPD compliance failed
+        end
     end
+    LGPD->>-S: 📢 LGPD sync completion notification
     
-    Note over Reg,Est: Inscrição no Vestibular (10h-14h UTC, de hora em hora)
-    Reg->>Sub: Buscar subscriptions com status 'to_register'
-    Sub->>Reg: Retornar subscriptions (chunks de 40, max 40/exec)
-    Reg->>Est: POST /inscricao com dados completos
-    alt Sucesso Inscrição
-        Est->>Reg: 200 OK com ID da inscrição
-        Reg->>Sub: Atualizar status para 'registered'
-        Reg->>FU: Criar follow_up com dados da resposta
-    else Falha Inscrição
-        Est->>Reg: 4xx/5xx Error
-        Reg->>Sub: Atualizar status para 'register_failed'
-        Reg->>Sub: Salvar erro em register_error
+    Note over D,S: 📝 Student Registration Phase
+    API->>+REG: Execute Register (QB/QC)
+    Note right of REG: ⏰ 10h-14h UTC (7h-11h BRT), hourly
+    REG->>DB: Fetch subscriptions (status: to_register)
+    
+    loop For each chunk (40 subscriptions, max 40/exec)
+        REG->>+EA: POST /inscricao with complete student data
+        alt Registration Success
+            EA-->>-REG: 200 OK with subscription ID
+            REG->>DB: Update status to 'registered'
+            REG->>+FU: Create FollowUp record
+            Note right of FU: 📊 Track enrollment status
+            FU-->>-REG: FollowUp created
+            Note right of DB: ✅ Successfully registered
+        else Registration Failure  
+            EA-->>REG: 4xx/5xx Error
+            REG->>DB: Update status to 'register_failed'
+            REG->>DB: Save error in register_error field
+            Note right of DB: ❌ Registration failed
+        end
+        
+        alt Campus Retry Logic
+            Note over REG: 🔄 Retry with alternate campus
+            REG->>REG: Switch codCampus ↔ codCampusPai
+            REG->>EA: Retry POST /inscricao
+        end
+    end
+    REG->>-S: 📢 Registration completion notification
+    
+    Note over D,S: 📈 Continuous Monitoring
+    loop Scheduled monitoring
+        API->>LGPD: Check failed LGPD sync status
+        API->>REG: Process registration queue
+        REG->>FU: Update follow-up records
+        Note right of S: 📊 Slack notifications for job status
     end
 ```
 
@@ -122,31 +223,48 @@ sequenceDiagram
 
 ```mermaid
 stateDiagram-v2
-    [*] --> to_sync_lgpd: Databricks import
+    [*] --> to_sync_lgpd : 📥 Databricks Import
     
-    to_sync_lgpd --> sync_lgpd_failed: LGPD sync fails
-    to_sync_lgpd --> to_register: LGPD sync success
+    to_sync_lgpd --> sync_lgpd_failed : 🚫 LGPD API Error
+    to_sync_lgpd --> to_register : ✅ LGPD Success
     
-    sync_lgpd_failed --> to_sync_lgpd: Retry schedule
+    sync_lgpd_failed --> to_sync_lgpd : 🔄 Retry Schedule
     
-    to_register --> registered: Registration success
-    to_register --> register_failed: Registration fails
+    to_register --> registered : ✅ Registration Success
+    to_register --> register_failed : ❌ Registration Failed
     
-    register_failed --> to_register: Manual retry
-    registered --> [*]: Process complete
+    register_failed --> to_register : 🔄 Manual Retry
+    register_failed --> [*] : ⛔ Final Error State
     
-    state to_sync_lgpd {
-        [*] --> validating_data
-        validating_data --> sending_to_onetrust
-        sending_to_onetrust --> [*]
-    }
+    registered --> [*] : ✅ Process Complete
     
-    state to_register {
-        [*] --> checking_gender_valid
-        checking_gender_valid --> preparing_payload
-        preparing_payload --> sending_to_estacio
-        sending_to_estacio --> [*]
-    }
+    note right of to_sync_lgpd
+        🔒 LGPD Compliance Required
+        📊 OneTrust consent collection
+        ⏰ Every 2h, 6h-18h UTC
+        📦 Chunks of 10, 150s interval
+    end note
+    
+    note right of to_register
+        👤 Gender validation (optional)
+        📚 Course mapping verification
+        🏛️ Campus selection logic
+        📝 Complete enrollment payload
+    end note
+    
+    note right of registered
+        📈 FollowUp record created
+        🆔 Estácio subscription ID stored
+        📊 Status tracking begins
+        ✅ Integration success
+    end note
+    
+    note right of sync_lgpd_failed
+        🚫 OneTrust API failure
+        📝 Error logged for analysis
+        🔄 Retry on next schedule
+        ⚠️ Compliance blocking
+    end note
 ```
 
 </details>

@@ -254,14 +254,14 @@ flowchart TD
     %% Final Lead Flow
     LEAD_SOLD --> FIM
     
-    %% Styling with Pastel Colors
-    classDef startEndNodes fill:#E8F5E8,stroke:#388E3C,stroke-width:3px,color:#000
-    classDef processNodes fill:#FFF3E0,stroke:#F57C00,stroke-width:2px,color:#000
-    classDef decisionNodes fill:#E3F2FD,stroke:#1976D2,stroke-width:2px,color:#000
-    classDef integrationNodes fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#000
-    classDef documentNodes fill:#FFF8E1,stroke:#FFA000,stroke-width:2px,color:#000
-    classDef errorNodes fill:#FFEBEE,stroke:#D32F2F,stroke-width:2px,color:#000
-    classDef systemNodes fill:#F1F8E9,stroke:#689F38,stroke-width:2px,color:#000
+    %% Styling with borders only - no background fills
+    classDef startEndNodes stroke:#388E3C,stroke-width:3px,color:#000
+    classDef processNodes stroke:#F57C00,stroke-width:2px,color:#000
+    classDef decisionNodes stroke:#1976D2,stroke-width:2px,color:#000
+    classDef integrationNodes stroke:#7B1FA2,stroke-width:2px,color:#000
+    classDef documentNodes stroke:#FFA000,stroke-width:2px,color:#000
+    classDef errorNodes stroke:#D32F2F,stroke-width:2px,color:#000
+    classDef systemNodes stroke:#689F38,stroke-width:2px,color:#000
     
     class INICIO,FIM,LEAD_SOLD startEndNodes
     class CADASTRO,ENROLL_DATA,STUDENT_ENROLLED,VOUCHER,CAMPUS_ENROLL processNodes

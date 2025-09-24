@@ -1,7 +1,7 @@
 flowchart TD
     %% Enhanced Enrollment Flow with Pastel Colors, Emoticons & Subgraphs
     
-    subgraph "🎯 Student Journey"
+    subgraph SG1 ["🎯 Student Journey"]
         INICIO(("`🚀 **Início**
         Aluno interessado
         na bolsa`"))
@@ -14,7 +14,7 @@ flowchart TD
         Conversão realizada`"))
     end
     
-    subgraph "💳 Payment & Admission Process"
+    subgraph SG2 ["💳 Payment & Admission Process"]
         PAYMENT_CHECK{"`💳 **Pagamento PEF?**
         Processo de pagamento`"}
         DIGITAL_ADMISSION{"`💻 **Admissão Digital?**
@@ -22,7 +22,7 @@ flowchart TD
         API_CHECK{"`🔌 **API de Inscrições?**
         Integração disponível`"}
         
-        subgraph "📋 Document Management"
+        subgraph SG3 ["📋 Document Management"]
             SEND_DOCS["`📄 **Enviar Documentos**
             Upload de arquivos`"]
             DOC_CHECK{"`✅ **Documentação OK?**
@@ -31,7 +31,7 @@ flowchart TD
             Documentos inválidos`"]
         end
         
-        subgraph "🎓 Enrollment Process"
+        subgraph SG4 ["🎓 Enrollment Process"]
             ENROLL_DATA["`📊 **Matrícula com Dados**
             Processamento de inscrição`"]
             STUDENT_ENROLLED["`🎉 **Aluno Matriculado**
@@ -43,13 +43,13 @@ flowchart TD
         end
     end
     
-    subgraph "⚙️ Integration Systems"
+    subgraph SG5 ["⚙️ Integration Systems"]
         INTEGRATION_TYPE{"`🔧 **Tipo de Integração**
         Sistema de destino`"}
         API_INTEGRATION{"`🔌 **API?**
         Integração automatizada`"}
         
-        subgraph "🔄 Kroton Integration"
+        subgraph SG6 ["🔄 Kroton Integration"]
             KROTON_CHECK{"`🎓 **Kroton?**
             Sistema Kroton`"}
             KROTON_MODE{"`📚 **Modalidade Kroton**
@@ -72,7 +72,7 @@ flowchart TD
             Modalidade presencial`"]
         end
         
-        subgraph "🏛️ Estácio Integration"
+        subgraph SG7 ["🏛️ Estácio Integration"]
             ESTACIO_BD["`🗄️ **Popula BD**
             Inscrições Estácio`"]
             ONETRUST["`🛡️ **OneTrust**
@@ -85,14 +85,14 @@ flowchart TD
             Intervenção necessária`"]
         end
         
-        subgraph "🕷️ Crawler Integration"
+        subgraph SG8 ["🕷️ Crawler Integration"]
             CRAWLER_BD["`🗄️ **BD Subscribe Bot**
             Sistema de captura`"]
             CRAWLER_SEND["`📡 **Envio para IES**
             Via crawler`"]
         end
         
-        subgraph "📊 Lead Management"
+        subgraph SG9 ["📊 Lead Management"]
             LEAD_BD_KROTON["`🗄️ **BD Inscrições**
             Type: captação`"]
             LEAD_ONETRUST["`🛡️ **OneTrust Lead**
@@ -107,7 +107,7 @@ flowchart TD
         end
     end
     
-    subgraph "🔧 Legacy Process"
+    subgraph SG10 ["🔧 Legacy Process"]
         CONFIG_CHECK{"`⚙️ **Config Admissão?**
         Configuração disponível`"}
         ADMISSION_CHECK{"`🎯 **admission_created?**
@@ -270,3 +270,15 @@ flowchart TD
     class SEND_DOCS,REJECT_DOCS,CONTRACT_1,SEND_DOCS_1,CONTRACT_2,SEND_DOCS_2 documentNodes
     class KROTON_RETRY,MANUAL_SEND errorNodes
     class SYNC_COURSE,KROTON_SEND_1,KROTON_SEND_2,ONETRUST,ESTACIO_SEND,CRAWLER_SEND,LEAD_ONETRUST,LEAD_SEND_KROTON,LEAD_SEND_ESTACIO,IES_NOTIFICATION,SELECTIVE_1,SELECTIVE_2 systemNodes
+    
+    %% Subgraph styling for better browser compatibility - using web-safe colors
+    style SG1 fill:#f8f9fa,stroke:#495057,stroke-width:2px,color:#000000
+    style SG2 fill:#e8f4f8,stroke:#0277bd,stroke-width:2px,color:#000000
+    style SG3 fill:#fff8e1,stroke:#ff8f00,stroke-width:1px,color:#000000
+    style SG4 fill:#fff3e0,stroke:#f57c00,stroke-width:1px,color:#000000
+    style SG5 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000000
+    style SG6 fill:#e8f5e8,stroke:#388e3c,stroke-width:1px,color:#000000
+    style SG7 fill:#ffebee,stroke:#d32f2f,stroke-width:1px,color:#000000
+    style SG8 fill:#f1f8e9,stroke:#689f38,stroke-width:1px,color:#000000
+    style SG9 fill:#fce4ec,stroke:#c2185b,stroke-width:1px,color:#000000
+    style SG10 fill:#f5f5f5,stroke:#757575,stroke-width:2px,color:#000000

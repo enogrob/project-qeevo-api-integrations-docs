@@ -1,144 +1,272 @@
-flowchart LR
-    %% Início do processo
-    INICIO(["Aluno se interessa pela bolsa (CTA - Quero esta bolsa)"])
-    FIM(["Fim"])
-    LEAD(["Lead 'Vendido'"])
+flowchart TD
+    %% Enhanced Enrollment Flow with Pastel Colors, Emoticons & Subgraphs
     
-    %% Ações principais
-    AC7["Cadastro (E-mail, CPF, Nome, Nascimento, Celular e CEP)"]
-    AC8["Aluno envia documentos"]
-    AC9["Rejeitar documentos"]
-    AC10["Matricula com dados do aluno"]
-    AC11["Aluno matriculado"]
-    AC23["Aluno recebe comprovante da bolsa"]
-    AC24["Matricula no balcão da IES"]
+    subgraph "🎯 Student Journey"
+        INICIO(("`🚀 **Início**
+        Aluno interessado
+        na bolsa`"))
+        CADASTRO["`📝 **Cadastro**
+        E-mail, CPF, Nome
+        Nascimento, Celular, CEP`"]
+        FIM(("`✅ **Fim**
+        Processo Concluído`"))
+        LEAD_SOLD(("`💰 **Lead Vendido**
+        Conversão realizada`"))
+    end
     
-    %% Processo de contrato e documentos
-    AC1["Assina o contrato"]
-    AC2["Envio dos documentos"]
-    AC3["Processo Seletivo"]
-    AC4["Assina o contrato"]
-    AC5["Envia dos documentos"]
-    AC6["Processo Seletivo"]
+    subgraph "💳 Payment & Admission Process"
+        PAYMENT_CHECK{"`💳 **Pagamento PEF?**
+        Processo de pagamento`"}
+        DIGITAL_ADMISSION{"`💻 **Admissão Digital?**
+        Processo automatizado`"}
+        API_CHECK{"`🔌 **API de Inscrições?**
+        Integração disponível`"}
+        
+        subgraph "📋 Document Management"
+            SEND_DOCS["`📄 **Enviar Documentos**
+            Upload de arquivos`"]
+            DOC_CHECK{"`✅ **Documentação OK?**
+            Validação de documentos`"}
+            REJECT_DOCS["`❌ **Rejeitar Docs**
+            Documentos inválidos`"]
+        end
+        
+        subgraph "🎓 Enrollment Process"
+            ENROLL_DATA["`📊 **Matrícula com Dados**
+            Processamento de inscrição`"]
+            STUDENT_ENROLLED["`🎉 **Aluno Matriculado**
+            Sucesso na matrícula`"]
+            VOUCHER["`🎫 **Comprovante Bolsa**
+            Documento de confirmação`"]
+            CAMPUS_ENROLL["`🏛️ **Matrícula no Campus**
+            Processo presencial`"]
+        end
+    end
     
-    %% Processos de integração Kroton
-    AC12["Cron Job 'sync_course'"]
-    AC13["Popula BD de inscrições"]
-    AC14["Envio dos dados do Aluno para IES"]
-    AC15["Popula BD de inscrições"]
-    AC16["Envio dos dados do Aluno para IES"]
-    AC17["Reenvio dos dados automáticamente"]
+    subgraph "⚙️ Integration Systems"
+        INTEGRATION_TYPE{"`🔧 **Tipo de Integração**
+        Sistema de destino`"}
+        API_INTEGRATION{"`🔌 **API?**
+        Integração automatizada`"}
+        
+        subgraph "🔄 Kroton Integration"
+            KROTON_CHECK{"`🎓 **Kroton?**
+            Sistema Kroton`"}
+            KROTON_MODE{"`📚 **Modalidade Kroton**
+            Tipo de curso`"}
+            
+            SYNC_COURSE["`🔄 **Cron Job sync_course**
+            Sincronização de cursos`"]
+            KROTON_BD_1["`🗄️ **Popula BD**
+            Inscrições Kroton`"]
+            KROTON_SEND_1["`📡 **Envio para IES**
+            Dados do aluno`"]
+            KROTON_ERROR_1{"`⚠️ **Erro no Envio?**
+            Falha na transmissão`"}
+            KROTON_RETRY["`🔄 **Reenvio Automático**
+            Tentativa automática`"]
+            
+            KROTON_BD_2["`🗄️ **Popula BD**
+            Inscrições presenciais`"]
+            KROTON_SEND_2["`📡 **Envio para IES**
+            Modalidade presencial`"]
+        end
+        
+        subgraph "🏛️ Estácio Integration"
+            ESTACIO_BD["`🗄️ **Popula BD**
+            Inscrições Estácio`"]
+            ONETRUST["`🛡️ **OneTrust**
+            Compliance LGPD`"]
+            ESTACIO_SEND["`📡 **Envio para IES**
+            Sistema Estácio`"]
+            ESTACIO_ERROR{"`⚠️ **Erro no Envio?**
+            Falha na transmissão`"}
+            MANUAL_SEND["`✋ **Envio Manual**
+            Intervenção necessária`"]
+        end
+        
+        subgraph "🕷️ Crawler Integration"
+            CRAWLER_BD["`🗄️ **BD Subscribe Bot**
+            Sistema de captura`"]
+            CRAWLER_SEND["`📡 **Envio para IES**
+            Via crawler`"]
+        end
+        
+        subgraph "📊 Lead Management"
+            LEAD_BD_KROTON["`🗄️ **BD Inscrições**
+            Type: captação`"]
+            LEAD_ONETRUST["`🛡️ **OneTrust Lead**
+            LGPD para leads`"]
+            LEAD_SEND_KROTON["`📡 **Envio Lead**
+            codAgentPdv: 14412833`"]
+            
+            LEAD_BD_ESTACIO["`🗄️ **BD Inscrições**
+            Separação por tipo`"]
+            LEAD_SEND_ESTACIO["`📡 **Envio Lead**
+            Sistema Estácio`"]
+        end
+    end
     
-    %% Processos de integração Estácio
-    AC18["Popula BD de inscrições"]
-    AC19["Envio dos dados do Aluno para Onetrust"]
-    AC20["Envio dos dados do Aluno para IES"]
-    AC21["IES nos avisa"]
-    AC22["Envio manual"]
+    subgraph "🔧 Legacy Process"
+        CONFIG_CHECK{"`⚙️ **Config Admissão?**
+        Configuração disponível`"}
+        ADMISSION_CHECK{"`🎯 **admission_created?**
+        Processo criado`"}
+        ENROLL_CHECK{"`📋 **admission_enroll?**
+        Matrícula disponível`"}
+        
+        CONTRACT_1["`📋 **Assinar Contrato**
+        Primeira assinatura`"]
+        SEND_DOCS_1["`📄 **Envio Documentos**
+        Primeira remessa`"]
+        SELECTIVE_1["`🎯 **Processo Seletivo**
+        Primeira avaliação`"]
+        
+        CONTRACT_2["`📋 **Assinar Contrato**
+        Segunda assinatura`"]
+        SEND_DOCS_2["`📄 **Envio Documentos**
+        Segunda remessa`"]
+        SELECTIVE_2["`🎯 **Processo Seletivo**
+        Segunda avaliação`"]
+    end
     
-    %% Processos de captação/leads
-    AC25["Popula BD de inscrições, mas separa com type captação"]
-    AC26["Envio dos leads para IES"]
-    AC27["Popula BD de inscrições, mas separa com codAgentPdv = 14412833"]
-    AC28["Envia dados do lead para Onetrust"]
-    AC29["Envio dos dados dos leads para IES"]
-    AC30["Popula banco 'subscribe_bot'"]
-    AC31["Envio do lead para a IES"]
+    %% Main Flow
+    INICIO --> CADASTRO
+    CADASTRO --> PAYMENT_CHECK
     
-    %% Decisões principais
-    IF1{admission_created?}
-    IF2{Config de Admissão?}
-    IF3{admission_enroll?}
-    IF4{Pagamento PEF?}
-    IF5{Admissão Digital?}
-    IF6{API de inscrições aluno?}
-    IF7{Documentação correta?}
-    IF8{Modalidade Kroton}
-    IF9{Erro no envio?}
-    IF10{API de inscrições aluno?}
-    IF11{Estácio}
-    IF12{Erro no envio?}
-    IF13{Tipo de Integração}
-    IF14{API}
-    IF15{Kroton}
-    IF16{Estácio}
-    IF17{Crawler}
+    %% Payment Flow
+    PAYMENT_CHECK -->|"`💳 **Sim**
+    Processo PEF`"| DIGITAL_ADMISSION
+    PAYMENT_CHECK -->|"`❌ **Não**
+    Sem pagamento`"| INTEGRATION_TYPE
     
-    %% Fluxo principal
-    INICIO --> AC7
-    AC7 --> IF4
+    %% Digital Admission Flow
+    DIGITAL_ADMISSION -->|"`💻 **Sim**
+    Processo digital`"| API_CHECK
+    DIGITAL_ADMISSION -->|"`📋 **Não**
+    Processo manual`"| API_CHECK
     
-    %% Fluxo PEF (Pagamento)
-    IF4 -->|Sim| IF5
-    IF5 -->|Sim| IF6
-    IF6 -->|Sim| AC8
-    AC8 --> IF7
-    IF7 -->|Sim| AC10
-    IF7 -->|Não| AC9
-    AC9 --> AC10
-    AC10 --> AC11
-    AC11 --> AC23
-    AC23 --> FIM
+    API_CHECK -->|"`🔌 **Sim**
+    API disponível`"| SEND_DOCS
+    API_CHECK -->|"`❌ **Não**
+    Sem API`"| CONFIG_CHECK
     
-    %% Fluxo sem PEF
-    IF4 -->|Não| IF13
+    %% Document Management Flow
+    SEND_DOCS --> DOC_CHECK
+    DOC_CHECK -->|"`✅ **Sim**
+    Documentos OK`"| ENROLL_DATA
+    DOC_CHECK -->|"`❌ **Não**
+    Documentos inválidos`"| REJECT_DOCS
+    REJECT_DOCS --> ENROLL_DATA
     
-    %% Configuração de admissão
-    IF6 -->|Não| IF2
-    IF2 -->|Não| IF1
-    IF1 -->|Sim| AC1
-    AC1 --> AC2
-    AC2 --> AC3
-    AC3 --> AC10
-    IF1 -->|Não| AC10
+    %% Enrollment Flow
+    ENROLL_DATA --> STUDENT_ENROLLED
+    STUDENT_ENROLLED --> VOUCHER
+    VOUCHER --> FIM
     
-    IF2 -->|Sim| IF3
-    IF3 -->|Sim| AC4
-    IF3 -->|Não| AC6
-    AC4 --> AC5
-    AC5 --> AC6
-    AC6 --> AC10
+    %% Legacy Configuration Flow
+    CONFIG_CHECK -->|"`❌ **Não**
+    Sem configuração`"| ADMISSION_CHECK
+    CONFIG_CHECK -->|"`✅ **Sim**
+    Com configuração`"| ENROLL_CHECK
     
-    %% Admissão não digital
-    IF5 -->|Não| IF10
-    IF10 -->|Kroton| IF8
-    IF8 -->|Semipresencial| AC12
-    AC12 --> AC13
-    AC13 --> AC14
-    AC14 --> IF9
-    IF9 -->|Sim| AC17
-    IF9 -->|Não| AC21
-    AC17 --> AC21
+    ADMISSION_CHECK -->|"`✅ **Sim**
+    Admissão criada`"| CONTRACT_1
+    ADMISSION_CHECK -->|"`❌ **Não**
+    Sem admissão`"| ENROLL_DATA
     
-    IF8 -->|Presencial| AC15
-    AC15 --> AC16
-    AC16 --> IF9
+    CONTRACT_1 --> SEND_DOCS_1
+    SEND_DOCS_1 --> SELECTIVE_1
+    SELECTIVE_1 --> ENROLL_DATA
     
-    IF10 -->|Estácio| AC18
-    AC18 --> AC19
-    AC19 --> AC20
-    AC20 --> IF12
-    IF12 -->|Sim| AC22
-    IF12 -->|Não| AC21
-    AC22 --> AC21
-    AC21 --> AC24
-    AC24 --> FIM
+    ENROLL_CHECK -->|"`✅ **Sim**
+    Matrícula habilitada`"| CONTRACT_2
+    ENROLL_CHECK -->|"`❌ **Não**
+    Matrícula direta`"| SELECTIVE_2
     
-    %% Tipos de integração
-    IF13 --> IF14
-    IF14 -->|Sim| IF15
-    IF15 -->|Kroton| AC27
-    AC27 --> AC28
-    AC28 --> AC29
-    AC29 --> LEAD
+    CONTRACT_2 --> SEND_DOCS_2
+    SEND_DOCS_2 --> SELECTIVE_2
+    SELECTIVE_2 --> ENROLL_DATA
     
-    IF15 -->|Estácio| AC25
-    AC25 --> AC26
-    AC26 --> LEAD
+    %% Integration Flow
+    INTEGRATION_TYPE --> API_INTEGRATION
+    API_INTEGRATION -->|"`🔌 **Sim**
+    API disponível`"| KROTON_CHECK
+    API_INTEGRATION -->|"`🕷️ **Crawler**
+    Captura automatizada`"| CRAWLER_BD
     
-    IF14 -->|Crawler| IF17
-    IF17 --> AC30
-    AC30 --> AC31
-    AC31 --> LEAD
+    %% Kroton Integration Flow
+    KROTON_CHECK -->|"`🎓 **Kroton**
+    Sistema Kroton`"| KROTON_BD_1
+    KROTON_CHECK -->|"`🏛️ **Estácio**
+    Sistema Estácio`"| ESTACIO_BD
     
-    LEAD --> FIM
+    KROTON_BD_1 --> LEAD_ONETRUST
+    LEAD_ONETRUST --> LEAD_SEND_KROTON
+    LEAD_SEND_KROTON --> LEAD_SOLD
+    
+    ESTACIO_BD --> LEAD_BD_ESTACIO
+    LEAD_BD_ESTACIO --> LEAD_SEND_ESTACIO
+    LEAD_SEND_ESTACIO --> LEAD_SOLD
+    
+    %% Crawler Flow
+    CRAWLER_BD --> CRAWLER_SEND
+    CRAWLER_SEND --> LEAD_SOLD
+    
+    %% Legacy Kroton Flow for non-API
+    API_CHECK -->|"`❌ **Não**
+    Kroton sem API`"| KROTON_MODE
+    KROTON_MODE -->|"`📚 **Semipresencial**
+    Modalidade híbrida`"| SYNC_COURSE
+    KROTON_MODE -->|"`🏛️ **Presencial**
+    Modalidade campus`"| KROTON_BD_2
+    
+    SYNC_COURSE --> KROTON_BD_1
+    KROTON_BD_1 --> KROTON_SEND_1
+    KROTON_SEND_1 --> KROTON_ERROR_1
+    KROTON_ERROR_1 -->|"`✅ **Não**
+    Sucesso`"| IES_NOTIFICATION
+    KROTON_ERROR_1 -->|"`⚠️ **Sim**
+    Erro ocorrido`"| KROTON_RETRY
+    KROTON_RETRY --> IES_NOTIFICATION
+    
+    KROTON_BD_2 --> KROTON_SEND_2
+    KROTON_SEND_2 --> KROTON_ERROR_1
+    
+    %% Estácio Flow for non-API
+    API_CHECK -->|"`❌ **Não**
+    Estácio sem API`"| ESTACIO_BD
+    ESTACIO_BD --> ONETRUST
+    ONETRUST --> ESTACIO_SEND
+    ESTACIO_SEND --> ESTACIO_ERROR
+    ESTACIO_ERROR -->|"`✅ **Não**
+    Sucesso`"| IES_NOTIFICATION
+    ESTACIO_ERROR -->|"`⚠️ **Sim**
+    Erro ocorrido`"| MANUAL_SEND
+    MANUAL_SEND --> IES_NOTIFICATION
+    
+    %% Final notification
+    IES_NOTIFICATION["`📢 **IES Notifica**
+    Confirmação do processo`"]
+    IES_NOTIFICATION --> CAMPUS_ENROLL
+    CAMPUS_ENROLL --> FIM
+    
+    %% Final Lead Flow
+    LEAD_SOLD --> FIM
+    
+    %% Styling with Pastel Colors
+    classDef startEndNodes fill:#E8F5E8,stroke:#388E3C,stroke-width:3px,color:#000
+    classDef processNodes fill:#FFF3E0,stroke:#F57C00,stroke-width:2px,color:#000
+    classDef decisionNodes fill:#E3F2FD,stroke:#1976D2,stroke-width:2px,color:#000
+    classDef integrationNodes fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#000
+    classDef documentNodes fill:#FFF8E1,stroke:#FFA000,stroke-width:2px,color:#000
+    classDef errorNodes fill:#FFEBEE,stroke:#D32F2F,stroke-width:2px,color:#000
+    classDef systemNodes fill:#F1F8E9,stroke:#689F38,stroke-width:2px,color:#000
+    
+    class INICIO,FIM,LEAD_SOLD startEndNodes
+    class CADASTRO,ENROLL_DATA,STUDENT_ENROLLED,VOUCHER,CAMPUS_ENROLL processNodes
+    class PAYMENT_CHECK,DIGITAL_ADMISSION,API_CHECK,DOC_CHECK,CONFIG_CHECK,ADMISSION_CHECK,ENROLL_CHECK,INTEGRATION_TYPE,API_INTEGRATION,KROTON_CHECK,KROTON_MODE,KROTON_ERROR_1,ESTACIO_ERROR decisionNodes
+    class KROTON_BD_1,KROTON_BD_2,ESTACIO_BD,CRAWLER_BD,LEAD_BD_KROTON,LEAD_BD_ESTACIO integrationNodes
+    class SEND_DOCS,REJECT_DOCS,CONTRACT_1,SEND_DOCS_1,CONTRACT_2,SEND_DOCS_2 documentNodes
+    class KROTON_RETRY,MANUAL_SEND errorNodes
+    class SYNC_COURSE,KROTON_SEND_1,KROTON_SEND_2,ONETRUST,ESTACIO_SEND,CRAWLER_SEND,LEAD_ONETRUST,LEAD_SEND_KROTON,LEAD_SEND_ESTACIO,IES_NOTIFICATION,SELECTIVE_1,SELECTIVE_2 systemNodes

@@ -1,6 +1,6 @@
 # Integração de Leads da Estácio
 
-## Contents
+## Conteúdo
 
 - [Processo de Inscrição da Estácio](#processo-de-inscrição-da-estácio)
 - [Arquitetura](#arquitetura)

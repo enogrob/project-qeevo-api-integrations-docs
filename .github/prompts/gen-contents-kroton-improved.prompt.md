@@ -2,19 +2,19 @@
 mode: 'agent'
 ---
 
-# Project Documentation Generator - Estácio Lead Integration
+# Project Documentation Generator - Kroton Lead Integration
 
 ## Context & Setup
 
-**Project Focus**: Estácio Lead Integration - A Node.js/TypeScript service for integrating student enrollment with Estácio University's API.
+**Project Focus**: Kroton Lead Integration - A Node.js/TypeScript service for integrating student enrollment with Kroton University's API.
 
 **Source Materials**:
-- Repository: #folder:src/estacio-lead-integration 
-- Documentation: #folder:src/estacio-lead-integration/__docs__
-- Repository URL: From #file:resources/quero-edu:estacio-lead-integration.webloc
-- Main README: #file:src/estacio-lead-integration/README.md
+- Repository: #folder:src/kroton-lead-integration 
+- Documentation: #folder:src/kroton-lead-integration/__docs__
+- Repository URL: From #file:resources/quero-edu:kroton-lead-integration.webloc
+- Main README: #file:src/kroton-lead-integration/README.md
 
-**Output Location**: Generate documentation as `/home/roberto/Projects/project-qeevo-api-integrations-docs/contents/estacio-lead-integration.md`
+**Output Location**: Generate documentation as `/home/roberto/Projects/project-qeevo-api-integrations-docs/contents/kroton-lead-integration.md`
 
 **Language**: Portuguese (Brazil)
 
@@ -55,18 +55,18 @@ Generate comprehensive TOC with anchor links:
 ```markdown
 ## Contents
 
-- [Processo de Inscrição da Estácio](#processo-de-inscrição-da-estácio)
+- [Processo de Inscrição da Kroton](#processo-de-inscrição-da-kroton)
 - [Arquitetura](#arquitetura)
 - [Perspectivas Alternativas](#perspectivas-alternativas)
 [... continue for all sections]
 ```
 
-#### 2. Processo de Inscrição da Estácio
+#### 2. Processo de Inscrição da Kroton
 
 **Requirements**:
 - 2-3 paragraphs explaining the integration's purpose and functionality
 - Based on actual README.md and source code analysis
-- Include key features: enrollment registration, LGPD sync, notification system
+- Include key features: enrollment registration, offer consultation, notification system
 - Mention integration with Quero Educação ecosystem
 
 #### 3. Arquitetura
@@ -74,14 +74,14 @@ Generate comprehensive TOC with anchor links:
 **Mermaid Diagram Requirements**:
 - Use get-syntax-docs-mermaid tool first for proper syntax
 - Create flowchart showing main system components
-- Include: API endpoints, database layer, external Estácio API, job processing
+- Include: API endpoints, database layer, external Kroton API, job processing
 - Validate with mermaid-diagram-validator
 - Preview with mermaid-diagram-preview
 - Use pastel colors and emoticons for visual clarity
 - Use subgraphs for logical grouping
 
 **Base diagram on**:
-- Package.json scripts (registerQB, registerQC, syncLGPD, etc.)
+- Package.json scripts (offer consultation, enrollment, etc.)
 - Source code structure analysis
 - Database migrations and models
 
@@ -120,9 +120,9 @@ sequenceDiagram
 **Requirements**:
 - Extract actual TypeScript interfaces/types from source code
 - Document these event types based on package.json scripts:
-  - registerQB (Quero Bolsa enrollment)
-  - registerQC (Quero Curso enrollment)  
-  - syncLGPDQB/syncLGPDQC (LGPD compliance)
+  - Offer consultation endpoints
+  - Student enrollment processes
+  - API integration patterns
 - Use JSON schema format or TypeScript interface format
 - Include validation rules if found in code
 
@@ -179,7 +179,7 @@ sequenceDiagram
 
 **Include**:
 - GitHub repository URL from .webloc file
-- Official Estácio API documentation (if found)
+- Official Kroton API documentation (if found)
 - Quero Educação related documentation
 - Technical resources referenced in code comments
 - Database/architecture documentation links

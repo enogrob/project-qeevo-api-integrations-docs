@@ -205,6 +205,14 @@ flowchart LR
     AC31 --> LEAD
     LEAD --> FIM
 
+    %% Additional connections for AC15, AC16, and IF16
+    AC13 --> AC15
+    AC15 --> AC16
+    AC16 --> IF9
+    IF8 -->|Estácio| IF16
+    IF16 -->|Sim| AC18
+    IF16 -->|Não| AC15
+
     %% Comment connections
     COMMENT1 -.-> AC12
     COMMENT2 -.-> AC13

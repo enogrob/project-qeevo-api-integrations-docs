@@ -1,3 +1,36 @@
+# 🎓 Fluxo de Inscrições QueroEdu
+
+## 📋 Visão Geral
+
+Este documento detalha o fluxo completo de inscrições do sistema QueroEdu, incluindo processos de matrícula, integração com APIs de parceiros e geração de leads para Instituições de Ensino Superior (IES).
+
+### 🔧 Integrações Disponíveis
+
+#### 🏫 Integração Kroton 
+Para detalhes completos sobre a integração Kroton, consulte: [Kroton Lead Integration](kroton-lead-integration.md)
+- **Tecnologia**: API REST + OAuth2 + Elasticsearch
+- **Características**: Rate limiting (100 req/5min), sincronização de cursos automática
+- **Jobs**: `sync_course`, populamento de BD, envio automático de dados
+
+#### 🎓 Integração Estácio
+Para detalhes completos sobre a integração Estácio, consulte: [Estácio Lead Integration](estacio-lead-integration.md)
+- **Compliance**: Integração obrigatória com OneTrust (LGPD)
+- **Tecnologia**: API Direta + OneTrust
+- **Características**: Processamento em chunks, retry automático
+- **Jobs**: Sync LGPD (a cada 2h), registro de inscrições (10h-14h UTC)
+
+#### 🤖 Integração via Crawler
+- **IES Atendidas**: Belas Artes, Kroton Pós, FMU, Anima (Presencial e EaD)
+- **Tecnologia**: Bot automatizado único para todas as IES
+- **Processo**: Populamento do banco `subscribe_bot` + envio automatizado
+
+### Fluxos de Processo:
+
+1. **💳 Fluxo PEF (Pagamento)**: Processo completo com admissão digital e validação de documentos
+2. **🔄 Fluxo de Integração**: Direcionamento baseado no tipo de integração disponível
+3. **📝 Fluxo de Captação**: Geração e envio de leads para IES parceiras
+4. **⚠️ Fluxo de Erro**: Tratamento e reenvio automático em caso de falhas
+
 ```mermaid
 flowchart LR
     %% 💬 Green comment nodes based on the image
@@ -8,7 +41,7 @@ flowchart LR
     COMMENT5["📝 🚀 Cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id"]
     COMMENT6["📝 ✅ Existe um cron job 'checker' que verifica o status do aluno na IES"]
     COMMENT7["📝 💿 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?"]
-    COMMENT8["� �🔐 Cron job que roda a cada 2h entre as 6h e 18, responsável por enviar dados para plataforma de LGPD (Onetrust)"]
+    COMMENT8["📝 🔐 Cron job que roda a cada 2h entre as 6h e 18h, responsável por enviar dados para plataforma de LGPD (Onetrust)"]
     COMMENT9["📝 📋 Cron job que roda a cada 1h entre as 10h e 14h. Enviamos os dados do aluno + cod_campus cod_turno, cod_curso, cod_forma_ingresso"]
     COMMENT10["📝 🎯 Define type captação com base no checkout_step. Se initiated ou registered = captação"]
     COMMENT11["📝 📤 Cron job com envio diário as 8h. Envia course_offer (dado feito com base em algumas queries)"]
@@ -25,9 +58,9 @@ flowchart LR
     end
 
     %% Subgraph for admission configuration
-    subgraph SG2 ["⚙️ Configuração de Admissão"] 
+    subgraph SG2 ["⚙️ Configuração de Admissão"]
         IF2{"⚙️ Config de Admissão"}
-        IF5{"� Admissão Digital?"}
+        IF5{"🔐 Admissão Digital?"}
     end
 
     %% Subgraph for document handling
@@ -52,7 +85,7 @@ flowchart LR
     subgraph SG5 ["🔌 Decisões de API"]
         IF6{"🔌 API de inscrições aluno?"}
         IF8{"🏫 Kroton"}
-        IF10{"� API de inscrições aluno?"}
+        IF10{"🔌 API de inscrições aluno?"}
         IF11{"🎓 Estácio"}
     end
 
@@ -105,62 +138,38 @@ flowchart LR
     end
 
     %% Additional nodes for completeness
-    AC15["� Popula BD de inscrições"]
-    AC16["� Envio dos dados do Aluno para IES"]
+    AC15["📊 Popula BD de inscrições"]
+    AC16["📤 Envio dos dados do Aluno para IES"]
     IF16{"🎓 Estácio"}
 
-    %% Main flowchart connections with subgraph organization
+    %% Main flowchart connections
     INICIO --> IF1
-    
-    %% First major decision branch
     IF1 -->|Sim| IF2
     IF1 -->|Não| AC7
-    
-    %% Config de Admissão branches
     IF2 -->|Digital| IF5  
     IF2 -->|Manual| AC1
-    
-    %% Digital admission path
     IF5 -->|Sim| AC8
     IF5 -->|Não| AC1
-    
-    %% Document handling
     AC8 --> IF7
     IF7 -->|Sim| AC10
     IF7 -->|Não| AC9
     AC9 --> AC8
-    
-    %% Success path from digital admission
     AC10 --> AC11
     AC11 --> FIM
-    
-    %% Manual contract path
     AC1 --> AC2
     AC2 --> AC3
     AC3 --> IF3
-    
-    %% admission_enroll decision
     IF3 -->|Sim| IF4
     IF3 -->|Não| AC4
-    
-    %% PEF payment branch
     IF4 -->|Sim| IF6
     IF4 -->|Não| AC4
-    
-    %% First API check
     IF6 -->|Sim| IF8
     IF6 -->|Não| AC23
-    
-    %% Alternative manual path
     AC4 --> AC5
     AC5 --> AC6
     AC6 --> IF10
-    
-    %% Second API check
     IF10 -->|Sim| IF11
     IF10 -->|Não| AC24
-    
-    %% Kroton specific flow
     IF8 -->|Kroton| AC12
     IF8 -->|Não| IF11
     AC12 --> AC13
@@ -169,8 +178,6 @@ flowchart LR
     IF9 -->|Sim| AC17
     IF9 -->|Não| FIM
     AC17 --> AC14
-    
-    %% Estácio specific flow
     IF11 -->|Estácio| AC18
     IF11 -->|Não| AC21
     AC18 --> AC19
@@ -178,45 +185,27 @@ flowchart LR
     AC20 --> IF12
     IF12 -->|Sim| AC17
     IF12 -->|Não| FIM
-    
-    %% Manual fallback
     AC21 --> AC22
     AC22 --> FIM
-    
-    %% Voucher path
     AC23 --> AC24
     AC24 --> FIM
-    
-    %% Lead generation path (Cadastro)
     AC7 --> IF13
-    
-    %% Integration routing
     IF13 --> IF14
     IF14 -->|API| IF15
     IF14 -->|Crawler| IF17
-    
-    %% API routing decisions
     IF15 -->|Kroton| AC25
     IF15 -->|Estácio| AC27
-    
-    %% Kroton lead flow
     AC25 --> AC26
     AC26 --> LEAD
-    
-    %% Estácio lead flow
     AC27 --> AC28
     AC28 --> AC29
     AC29 --> LEAD
-    
-    %% Crawler lead flow
     IF17 --> AC30
     AC30 --> AC31
     AC31 --> LEAD
-    
-    %% All leads end here
     LEAD --> FIM
 
-    %% Green comment connections (dotted lines to show context)
+    %% Comment connections
     COMMENT1 -.-> AC12
     COMMENT2 -.-> AC13
     COMMENT3 -.-> AC14
@@ -250,3 +239,12 @@ flowchart LR
     class AC1,AC2,AC3,AC4,AC5,AC6,AC7,AC8,AC9,AC10,AC11,AC12,AC13,AC14,AC15,AC16,AC17,AC18,AC19,AC20,AC21,AC22,AC23,AC24,AC25,AC26,AC27,AC28,AC29,AC30,AC31 greyNodes
 
 ```
+
+---
+
+## Referências Técnicas
+
+- **[Kroton Lead Integration](kroton-lead-integration.md)**: Documentação completa da integração com APIs Kroton, incluindo OAuth2, Elasticsearch e processamento de matrículas
+- **[Estácio Lead Integration](estacio-lead-integration.md)**: Documentação detalhada da integração Estácio com compliance LGPD via OneTrust
+- **Databricks**: Importação diária de dados de alunos e ordens
+- **APIs de Terceiros**: Integrações diretas com sistemas das IES parceiras

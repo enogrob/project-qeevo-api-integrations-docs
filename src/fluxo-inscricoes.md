@@ -52,168 +52,123 @@ flowchart LR
     FIM(["✅ Fim"])
     LEAD(["💡 Lead 'Vendido'"])
     
-    %% Subgraph for initial decision
-    subgraph SG1 ["🚀 Início do Processo"]
-        IF1{"❓ admission_created"}
-    end
+    IF1{"❓ admission_created"}
+    IF2{"⚙️ Config de Admissão"}
+    IF3{"📝 admission_enroll"}
+    IF4{"💳 Pagamento PEF?"}
+    IF5{"🔐 Admissão Digital?"}
+    IF6{"🔌 API de inscrições aluno?"}
+    IF7{"📋 Documentação correta?"}
+    IF8{"🏫 Kroton"}
+    IF9{"⚠️ Erro no envio?"}
+    IF10{"🔌 API de inscrições aluno?"}
+    IF11{"🎓 Estácio"}
+    IF12{"⚠️ Erro no envio?"}
+    IF13{"🔄 Tipo de Integração?"}
+    IF14{"🔌 API"}
+    IF15{"🏫 Kroton"}
+    IF16{"🎓 Estácio"}
+    IF17{"🤖 Crawler"}
 
-    %% Subgraph for admission configuration
-    subgraph SG2 ["⚙️ Configuração de Admissão"]
-        IF2{"⚙️ Config de Admissão"}
-        IF5{"🔐 Admissão Digital?"}
-    end
-
-    %% Subgraph for document handling
-    subgraph SG3 ["📄 Processamento de Documentos"]
-        AC1["✍️ Assina o contrato"]
-        AC2["📤 Envio dos documentos"]
-        AC8["📄 Aluno envia documentos"]
-        AC9["❌ Rejeitar documentos"]
-        IF7{"📋 Documentação correta?"}
-    end
-
-    %% Subgraph for enrollment process
-    subgraph SG4 ["📝 Processo de Matrícula"]
-        AC3["🎯 Processo Seletivo"]
-        IF3{"📝 admission_enroll"}
-        IF4{"💳 Pagamento PEF?"}
-        AC10["✏️ Matrícula com dados do aluno"]
-        AC11["🎓 Aluno matriculado"]
-    end
-
-    %% Subgraph for API decisions
-    subgraph SG5 ["🔌 Decisões de API"]
-        IF6{"🔌 API de inscrições aluno?"}
-        IF8{"🏫 Kroton"}
-        IF10{"🔌 API de inscrições aluno?"}
-        IF11{"🎓 Estácio"}
-    end
-
-    %% Subgraph for Kroton flow
-    subgraph SG6 ["🏫 Fluxo Kroton"]
-        AC12["⏰ Cron Job 'sync_course'"]
-        AC13["💾 Popula BD de inscrições"]
-        AC14["📤 Envio dos dados do Aluno para IES"]
-        IF9{"⚠️ Erro no envio?"}
-        AC17["🔄 Reenvio dos dados automáticamente"]
-    end
-
-    %% Subgraph for Estácio flow
-    subgraph SG7 ["🎓 Fluxo Estácio"]
-        AC18["💾 Popula BD de inscrições"]
-        AC19["🔐 Envio dos dados do Aluno para Onetrust"]
-        AC20["📤 Envio dos dados do Aluno para IES"]
-        IF12{"⚠️ Erro no envio?"}
-    end
-
-    %% Subgraph for manual processes
-    subgraph SG8 ["✋ Processos Manuais"]
-        AC4["✍️ Assina o contrato"]
-        AC5["📤 Envia dos documentos"]
-        AC6["🎯 Processo Seletivo"]
-        AC21["📞 IES nos avisa"]
-        AC22["✋ Envio manual"]
-        AC23["📄 Aluno recebe comprovante da bolsa"]
-        AC24["🏢 Matrícula no balcão da IES"]
-    end
-
-    %% Subgraph for lead generation
-    subgraph SG9 ["📋 Geração de Leads"]
-        AC7["📋 Cadastro (E-mail, CPF, Nome, Nascimento, Celular e CEP)"]
-        IF13{"🔄 Tipo de Integração?"}
-        IF14{"🔌 API"}
-        IF15{"🏫 Kroton"}
-        IF17{"🤖 Crawler"}
-    end
-
-    %% Subgraph for lead processing
-    subgraph SG10 ["📤 Processamento de Leads"]
-        AC25["💾 Popula BD de inscrições, mas separa com type captação"]
-        AC26["📤 Envio dos leads para IES"]
-        AC27["💾 Popula BD de inscrições, mas separa com codAgentPdv = 14412833"]
-        AC28["🔐 Envia dados do lead para Onetrust"]
-        AC29["📤 Envio dos dados dos leads para IES"]
-        AC30["💾 Popula banco 'subscribe_bot'"]
-        AC31["📤 Envio do lead para a IES"]
-    end
-
-    %% Additional nodes for completeness
+    AC1["✍️ Assina o contrato"]
+    AC2["📤 Envio dos documentos"]
+    AC3["🎯 Processo Seletivo"]
+    AC4["✍️ Assina o contrato"]
+    AC5["📤 Envia dos documentos"]
+    AC6["🎯 Processo Seletivo"]
+    AC7["📋 Cadastro (E-mail, CPF, Nome, Nascimento, Celular e CEP)"]
+    AC8["📄 Aluno envia documentos"]
+    AC9["❌ Rejeitar documentos"]
+    AC10["✏️ Matrícula com dados do aluno"]
+    AC11["🎓 Aluno matriculado"]
+    AC12["⏰ Cron Job 'sync_course'"]
+    AC13["💾 Popula BD de inscrições"]
+    AC14["📤 Envio dos dados do Aluno para IES"]
     AC15["📊 Popula BD de inscrições"]
     AC16["📤 Envio dos dados do Aluno para IES"]
-    IF16{"🎓 Estácio"}
+    AC17["🔄 Reenvio dos dados automáticamente"]
+    AC18["💾 Popula BD de inscrições"]
+    AC19["🔐 Envio dos dados do Aluno para Onetrust"]
+    AC20["📤 Envio dos dados do Aluno para IES"]
+    AC21["📞 IES nos avisa"]
+    AC22["✋ Envio manual"]
+    AC23["📄 Aluno recebe comprovante da bolsa"]
+    AC24["🏢 Matrícula no balcão da IES"]
+    AC25["💾 Popula BD de inscrições, mas separa com type captação"]
+    AC26["📤 Envio dos leads para IES"]
+    AC27["💾 Popula BD de inscrições, mas separa com codAgentPdv = 14412833"]
+    AC28["🔐 Envia dados do lead para Onetrust"]
+    AC29["📤 Envio dos dados dos leads para IES"]
+    AC30["💾 Popula banco 'subscribe_bot'"]
+    AC31["📤 Envio do lead para a IES"]
+
+    %% Additional nodes for completeness
 
     %% Main flowchart connections
     INICIO --> AC7
-    AC7 --> IF4
-    IF1 -->|Sim| IF2
-    IF1 -->|Não| IF13
-    IF4 -->|Sim| IF5
-    IF4 -->|Não| IF13
-    IF2 -->|Digital| IF5  
-    IF2 -->|Manual| AC1
-    IF5 -->|Sim| AC8
-    IF5 -->|Não| AC1
-    AC8 --> IF7
-    IF7 -->|Sim| AC10
-    IF7 -->|Não| AC9
-    AC9 --> AC8
-    AC10 --> AC11
-    AC11 --> FIM
     AC1 --> AC2
     AC2 --> AC3
-    AC3 --> IF3
-    IF3 -->|Sim| IF4
-    IF3 -->|Não| AC4
-    IF4 -->|Sim| IF6
-    IF4 -->|Não| AC4
-    IF6 -->|Sim| IF8
-    IF6 -->|Não| AC23
+    AC3 --> AC10
     AC4 --> AC5
     AC5 --> AC6
-    AC6 --> IF10
-    IF10 -->|Sim| IF11
-    IF10 -->|Não| AC24
-    IF8 -->|Kroton| AC12
-    IF8 -->|Não| IF11
+    AC6 --> AC10
+    AC7 --> IF4
+    AC8 --> IF7
+    AC9 --> AC7
+    AC10 --> AC11
+    AC11 --> FIM
     AC12 --> AC13
     AC13 --> AC14
     AC14 --> IF9
-    IF9 -->|Sim| AC17
-    IF9 -->|Não| FIM
-    AC17 --> AC14
-    IF11 -->|Estácio| AC18
-    IF11 -->|Não| AC21
+    AC15 --> AC16
+    AC16 --> IF9
+    AC17 --> AC10
     AC18 --> AC19
     AC19 --> AC20
     AC20 --> IF12
-    IF12 -->|Sim| AC17
-    IF12 -->|Não| FIM
     AC21 --> AC22
-    AC22 --> FIM
+    AC22 --> AC10
     AC23 --> AC24
-    AC24 --> FIM
-    IF13 --> IF14
-    IF14 -->|API| IF15
-    IF14 -->|Crawler| IF17
-    IF15 -->|Kroton| AC25
-    IF15 -->|Estácio| AC27
+    AC24 --> AC11
     AC25 --> AC26
     AC26 --> LEAD
     AC27 --> AC28
     AC28 --> AC29
     AC29 --> LEAD
-    IF17 --> AC30
     AC30 --> AC31
     AC31 --> LEAD
-    LEAD --> FIM
 
-    %% Additional connections for AC15, AC16, and IF16
-    AC13 --> AC15
-    AC15 --> AC16
-    AC16 --> IF9
-    IF8 -->|Estácio| IF16
-    IF16 -->|Sim| AC18
-    IF16 -->|Não| AC15
+    IF1 -->|Sim| AC1
+    IF1 -->|Não| AC10
+    IF2 -->|Sim| IF1
+    IF2 -->|Não| IF2
+    IF3 -->|Sim| AC4
+    IF3 -->|Não| AC10
+    IF4 -->|Sim| IF5
+    IF4 -->|Não| IF13
+    IF5 -->|Sim| IF6
+    IF5 -->|Não| IF10
+    IF6 -->|Sim| AC8
+    IF6 -->|Não| IF2
+    IF7 -->|Sim| AC10 
+    IF7 -->|Não| AC9
+    IF8 -->|Semipresencial| AC12 
+    IF8 -->|Presencial| AC15
+    IF9 -->|Sim| AC17
+    IF9 -->|Não| AC10
+    IF10 -->|Kroton| IF8
+    IF10 -->|Estácio| IF11
+    IF10 -->|Não| AC23
+    IF11 --> AC18
+    IF12 -->|Sim| AC21
+    IF12 -->|Não| AC10
+    IF13 -->|Sim| IF14
+    IF13 -->|Não| IF17
+    IF14 -->|Kroton| IF15
+    IF14 -->|Estácio| IF16
+    IF15 --> AC25
+    IF16 --> AC27
+    IF17 --> AC30
 
     %% Comment connections
     COMMENT1 -.-> AC12
@@ -247,7 +202,6 @@ flowchart LR
     %% 🔘 Pastel Grey - Action nodes
     classDef greyNodes fill:#F0F0F0,stroke:#616161,stroke-width:2px,color:#212121
     class AC1,AC2,AC3,AC4,AC5,AC6,AC7,AC8,AC9,AC10,AC11,AC12,AC13,AC14,AC15,AC16,AC17,AC18,AC19,AC20,AC21,AC22,AC23,AC24,AC25,AC26,AC27,AC28,AC29,AC30,AC31 greyNodes
-
 ```
 
 ---

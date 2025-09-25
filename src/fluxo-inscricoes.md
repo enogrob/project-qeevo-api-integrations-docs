@@ -1,3 +1,45 @@
+# Fluxo de Inscrições - Sistema Integrado QueroEdu
+
+## Descrição do Processo
+
+Este diagrama representa o **fluxo completo de inscrições** do ecossistema QueroEdu, desde o interesse inicial do aluno até a finalização da matrícula ou captação de leads. O processo contempla múltiplas modalidades de integração com diferentes Instituições de Ensino Superior (IES), incluindo integrações diretas via API, processamento por crawler e envios manuais.
+
+### Principais Características:
+
+- **🎯 Processo Unificado**: Consolida diferentes jornadas do aluno em um fluxo único
+- **🔄 Integrações Automatizadas**: APIs diretas com instituições parceiras
+- **📊 Controle de Status**: Rastreamento completo do ciclo de vida das inscrições
+- **🤖 Processamento em Lote**: Jobs automatizados para sincronização e envio de dados
+- **📋 Conformidade LGPD**: Integração obrigatória com plataformas de compliance
+
+### Integrações Contempladas:
+
+#### 🏫 Integração Kroton
+Para detalhes completos sobre a integração Kroton, consulte: [Kroton Lead Integration](kroton-lead-integration.md)
+- **Modalidades**: Presencial e Semi-presencial 
+- **Tecnologia**: API REST + OAuth2 + Elasticsearch
+- **Características**: Rate limiting (100 req/5min), sincronização de cursos automática
+- **Jobs**: `sync_course`, populamento de BD, envio automático de dados
+
+#### 🎓 Integração Estácio
+Para detalhes completos sobre a integração Estácio, consulte: [Estácio Lead Integration](estacio-lead-integration.md)
+- **Compliance**: Integração obrigatória com OneTrust (LGPD)
+- **Tecnologia**: API Direta + OneTrust
+- **Características**: Processamento em chunks, retry automático
+- **Jobs**: Sync LGPD (a cada 2h), registro de inscrições (10h-14h UTC)
+
+#### 🤖 Integração via Crawler
+- **IES Atendidas**: Belas Artes, Kroton Pós, FMU, Anima (Presencial e EaD)
+- **Tecnologia**: Bot automatizado único para todas as IES
+- **Processo**: Populamento do banco `subscribe_bot` + envio automatizado
+
+### Fluxos de Processo:
+
+1. **💳 Fluxo PEF (Pagamento)**: Processo completo com admissão digital e validação de documentos
+2. **🔄 Fluxo de Integração**: Direcionamento baseado no tipo de integração disponível
+3. **📝 Fluxo de Captação**: Geração e envio de leads para IES parceiras
+4. **⚠️ Fluxo de Erro**: Tratamento e reenvio automático em caso de falhas
+
 ```mermaid
 %%{init: {
     "theme": "default",
@@ -8,216 +50,191 @@
         "lineColor": "#333333",
         "sectionBkgColor": "#f8f9fa",
         "altSectionBkgColor": "#e9ecef",
-        "gridColor": "#cccccc",
-        "c0": "#f0f8ff",
-        "c1": "#f5f5f5", 
-        "c2": "#f0fff0",
-        "c3": "#fff5ee",
-        "c4": "#f5f0ff"
+        "gridColor": "#cccccc"
     }
 }}%%
 
 flowchart TD
     %% 💬 Green comment nodes based on the image
     COMMENT1@{ shape: comment, label: "🔄 Essa rotina roda a cada 3h pegando, do BD da IES, os dias de aula presencial dos cursos Semi" }
-    COMMENT2@{ shape: comment, label: "📊 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
-    COMMENT3@{ shape: comment, label: "📤 Cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id e os dias de presencial" }
-    COMMENT4@{ shape: comment, label: "💾 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
-    COMMENT5@{ shape: comment, label: "🚀 Cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id" }
-    COMMENT6@{ shape: comment, label: "✅ Existe um cron job 'checker' que verifica o status do aluno na IES" }
-    COMMENT7@{ shape: comment, label: "💿 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
-    COMMENT8@{ shape: comment, label: "🔐 Cron job que roda a cada 2h entre as 6h e 18, responsável por enviar dados para plataforma de LGPD (Onetrust)" }
-    COMMENT9@{ shape: comment, label: "📋 Cron job que roda a cada 1h entre as 10h e 14h. Enviamos os dados do aluno + cod_campus cod_turno, cod_curso, cod_forma_ingresso" }
-    COMMENT10@{ shape: comment, label: "🎯 Define type captação com base no checkout_step. Se initiated ou registered = captação" }
-    COMMENT11@{ shape: comment, label: "📤 Cron job com envio diário as 8h. Envia course_offer (dado feito com base em algumas queries)" }
-    COMMENT12@{ shape: comment, label: "🤖 IES que usam Crawler: Belas Artes, Kroton Pós, FMU e Anima Presencial e EaD. Usamos o mesmo bot todas as IES" }
-    COMMENT13@{ shape: comment, label: "🔍 Processo de verificação e envio automático" }
+    COMMENT2@{ shape: comment, label: "📊 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição" }
+    COMMENT3@{ shape: comment, label: "📤 Cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h" }
+    COMMENT4@{ shape: comment, label: "💾 Sistema de persistência de dados" }
+    COMMENT5@{ shape: comment, label: "🚀 Processo de envio automático" }
+    COMMENT6@{ shape: comment, label: "✅ Verificação de status do aluno" }
+    COMMENT7@{ shape: comment, label: "💿 Backup de dados de inscrição" }
+    COMMENT8@{ shape: comment, label: "🔐 Integração com plataforma LGPD" }
+    COMMENT9@{ shape: comment, label: "📋 Envio de dados específicos da IES" }
+    COMMENT10@{ shape: comment, label: "🎯 Sistema de captação de leads" }
 
-    %% 🟡 Início e fim do processo (Yellow START/END nodes)
-    INICIO(["🚀 Aluno se interessa pela bolsa (CTA - Quero esta bolsa)"])
-    FIM(["✅ Fim"])
-    LEAD(["💡 Lead 'Vendido'"])
+    %% 🟡 START/END nodes
+    START(["🚀 Início do Processo"])
+    END1(["✅ Processo Finalizado"])
+    END2(["💡 Lead Capturado"])
     
-    %% Subgraph para processo de cadastro
-    subgraph SG1 ["📝 Processo de Cadastro"]
-        AC7["📋 Cadastro (E-mail, CPF, Nome, Nascimento, Celular e CEP)"]
-        AC8["📄 Aluno envia documentos"]
-        AC9["❌ Rejeitar documentos"]
-        AC10["✏️ Matrícula com dados do aluno"]
-        AC11["🎓 Aluno matriculado"]
-        AC23["📄 Aluno recebe comprovante da bolsa"]
-        AC24["🏢 Matrícula no balcão da IES"]
-    end
-    
-    %% Subgraph para processo de contrato
-    subgraph SG2 ["📋 Processo de Contrato"]
-        AC1["✍️ Assina o contrato"]
-        AC2["📤 Envio dos documentos"]
-        AC3["🎯 Processo Seletivo"]
-        AC4["✍️ Assina o contrato"]
-        AC5["📤 Envia dos documentos"]
-        AC6["🎯 Processo Seletivo"]
-    end
-    
-    %% Subgraph para integração Kroton
-    subgraph SG3 ["🏫 Integração Kroton"]
-        AC12["⏰ Cron Job 'sync_course'"]
-        AC13["💾 Popula BD de inscrições"]
-        AC14["📤 Envio dos dados do Aluno para IES"]
-        AC15["💾 Popula BD de inscrições"]
-        AC16["📤 Envio dos dados do Aluno para IES"]
-        AC17["🔄 Reenvio dos dados automáticamente"]
-    end
-    
-    %% Subgraph para integração Estácio
-    subgraph SG4 ["🎓 Integração Estácio"]
-        AC18["💾 Popula BD de inscrições"]
-        AC19["🔐 Envio dos dados do Aluno para Onetrust"]
-        AC20["📤 Envio dos dados do Aluno para IES"]
-        AC21["📞 IES nos avisa"]
-        AC22["✋ Envio manual"]
-    end
-    
-    %% Subgraph para captação de leads
-    subgraph SG5 ["🎯 Captação de Leads"]
-        AC25["💾 Popula BD de inscrições, mas separa com type captação"]
-        AC26["📤 Envio dos leads para IES"]
-        AC27["💾 Popula BD de inscrições, mas separa com codAgentPdv = 14412833"]
-        AC28["🔐 Envia dados do lead para Onetrust"]
-        AC29["📤 Envio dos dados dos leads para IES"]
-        AC30["💾 Popula banco 'subscribe_bot'"]
-        AC31["📤 Envio do lead para a IES"]
-    end
-    
-    %% 🌸 Decisões principais (Pink IF nodes)
-    IF1{"❓ admission_created?"}
-    IF2{"⚙️ Config de Admissão?"}
-    IF3{"📝 admission_enroll?"}
-    IF4{"💳 Pagamento PEF?"}
-    IF5{"📱 Admissão Digital?"}
-    IF6{"🔌 API de inscrições aluno?"}
-    IF7{"📋 Documentação correta?"}
-    IF8{"🏫 Modalidade Kroton?"}
-    IF9{"⚠️ Erro no envio?"}
-    IF10{"🔌 API de inscrições aluno?"}
-    IF11{"🎓 Estácio?"}
-    IF12{"⚠️ Erro no envio?"}
-    IF13{"🔄 Tipo de Integração?"}
-    IF14{"🔌 API?"}
-    IF15{"🏫 Kroton?"}
-    IF16{"🎓 Estácio?"}
-    IF17{"🤖 Crawler?"}
-    
-    %% Fluxo principal
-    INICIO --> AC7
-    AC7 --> IF4
-    
-    %% Fluxo PEF (Pagamento)
-    IF4 -->|Sim| IF5
-    IF5 -->|Sim| IF6
-    IF6 -->|Sim| AC8
-    AC8 --> IF7
-    IF7 -->|Sim| AC10
-    IF7 -->|Não| AC9
-    AC9 --> AC10
-    AC10 --> AC11
-    AC11 --> AC23
-    AC23 --> FIM
-    
-    %% Fluxo sem PEF
-    IF4 -->|Não| IF13
-    
-    %% Configuração de admissão
-    IF6 -->|Não| IF2
-    IF2 -->|Não| IF1
-    IF1 -->|Sim| AC1
-    AC1 --> AC2
-    AC2 --> AC3
-    AC3 --> AC10
-    IF1 -->|Não| AC10
-    
-    IF2 -->|Sim| IF3
-    IF3 -->|Sim| AC4
-    IF3 -->|Não| AC6
-    AC4 --> AC5
-    AC5 --> AC6
-    AC6 --> AC10
-    
-    %% Admissão não digital
-    IF5 -->|Não| IF10
-    IF10 -->|Kroton| IF8
-    IF8 -->|Semipresencial| AC12
-    AC12 --> AC13
-    AC13 --> AC14
-    AC14 --> IF9
-    IF9 -->|Sim| AC17
-    IF9 -->|Não| AC21
-    AC17 --> AC21
-    
-    IF8 -->|Presencial| AC15
-    AC15 --> AC16
-    AC16 --> IF9
-    
-    IF10 -->|Estácio| AC18
-    AC18 --> AC19
-    AC19 --> AC20
-    AC20 --> IF12
-    IF12 -->|Sim| AC22
-    IF12 -->|Não| AC21
-    AC22 --> AC21
-    AC21 --> AC24
-    AC24 --> FIM
-    
-    %% Tipos de integração
-    IF13 --> IF14
-    IF14 -->|Sim| IF15
-    IF15 -->|Kroton| AC27
-    AC27 --> AC28
-    AC28 --> AC29
-    AC29 --> LEAD
-    
-    IF15 -->|Estácio| AC25
-    AC25 --> AC26
-    AC26 --> LEAD
-    
-    IF14 -->|Crawler| IF17
-    IF17 --> AC30
-    AC30 --> AC31
-    AC31 --> LEAD
-    
-    LEAD --> FIM
+    %% 🌸 Main decision points
+    PAYMENT_CHECK{"💳 Pagamento aprovado?"}
+    DIGITAL_ADMISSION{"📱 Admissão Digital?"}
+    API_CHECK{"🔌 Tem API?"}
+    DOC_CHECK{"📋 Docs OK?"}
+    INTEGRATION_TYPE{"🔄 Tipo Integração?"}
+    API_INTEGRATION{"🔌 API Integration?"}
+    KROTON_CHECK{"🏫 É Kroton?"}
+    KROTON_MODE{"📚 Modalidade?"}
+    KROTON_ERROR_1{"⚠️ Erro no envio?"}
+    ESTACIO_ERROR{"⚠️ Erro Estácio?"}
+    CONFIG_CHECK{"⚙️ Config Admissão?"}
+    ADMISSION_CHECK{"❓ admission_created?"}
+    ENROLL_CHECK{"📝 admission_enroll?"}
 
-    %% 💬 Green comment connections (dotted lines to show context)
-    COMMENT1 -.-> AC12
-    COMMENT2 -.-> AC13
-    COMMENT3 -.-> AC14
-    COMMENT4 -.-> AC15
-    COMMENT5 -.-> AC16
-    COMMENT6 -.-> AC17
-    COMMENT7 -.-> AC18
-    COMMENT8 -.-> AC19
-    COMMENT9 -.-> AC20
-    COMMENT10 -.-> AC25
-    COMMENT11 -.-> AC26
-    COMMENT12 -.-> IF17
-    COMMENT13 -.-> AC30
+    %% ⚪ Process nodes
+    CADASTRO["📋 Cadastro do Aluno"]
+    SEND_DOCS["📤 Envio de Documentos"]
+    REJECT_DOCS["❌ Rejeitar Documentos"]
+    ENROLL_DATA["✏️ Dados de Matrícula"]
+    STUDENT_ENROLLED["🎓 Aluno Matriculado"]
+    VOUCHER["📄 Comprovante de Bolsa"]
+    MANUAL_ENROLL["🏢 Matrícula Presencial"]
+    
+    %% Contract process
+    SIGN_CONTRACT1["✍️ Assinar Contrato"]
+    SEND_DOCS1["📤 Enviar Documentos"]
+    SELECTION_PROCESS1["🎯 Processo Seletivo"]
+    SIGN_CONTRACT2["✍️ Assinar Contrato 2"]
+    SEND_DOCS2["📤 Enviar Documentos 2"]
+    SELECTION_PROCESS2["🎯 Processo Seletivo 2"]
+    
+    %% Kroton Integration
+    SYNC_COURSE["⏰ Cron Job 'sync_course'"]
+    POPULATE_BD1["💾 Popular BD Inscrições"]
+    SEND_STUDENT_DATA1["📤 Enviar Dados Aluno"]
+    POPULATE_BD2["💾 Popular BD Inscrições 2"]
+    SEND_STUDENT_DATA2["📤 Enviar Dados Aluno 2"]
+    AUTO_RESEND["🔄 Reenvio Automático"]
+    
+    %% Estácio Integration
+    POPULATE_BD3["💾 Popular BD Inscrições 3"]
+    SEND_ONETRUST["🔐 Enviar para Onetrust"]
+    SEND_STUDENT_DATA3["📤 Enviar Dados Aluno 3"]
+    IES_NOTIFY["📞 IES Notifica"]
+    MANUAL_SEND["✋ Envio Manual"]
+    
+    %% Lead Capture
+    POPULATE_LEADS1["💾 Popular BD - type captação"]
+    SEND_LEADS1["📤 Enviar Leads"]
+    POPULATE_LEADS2["💾 Popular BD - codAgentPdv"]
+    SEND_ONETRUST2["🔐 Enviar Lead Onetrust"]
+    SEND_LEADS2["📤 Enviar Dados Leads"]
+    POPULATE_BOT["💾 Popular subscribe_bot"]
+    SEND_LEAD_IES["📤 Enviar Lead para IES"]
 
-    %% 🎨 Pastel Color Class Definitions for better browser display
+    %% Main Flow
+    START --> CADASTRO
+    CADASTRO --> PAYMENT_CHECK
+    
+    %% Payment Flow (YES)
+    PAYMENT_CHECK -->|Sim| DIGITAL_ADMISSION
+    DIGITAL_ADMISSION -->|Sim| API_CHECK
+    API_CHECK -->|Sim| SEND_DOCS
+    SEND_DOCS --> DOC_CHECK
+    DOC_CHECK -->|Sim| ENROLL_DATA
+    DOC_CHECK -->|Não| REJECT_DOCS
+    REJECT_DOCS --> ENROLL_DATA
+    ENROLL_DATA --> STUDENT_ENROLLED
+    STUDENT_ENROLLED --> VOUCHER
+    VOUCHER --> END1
+    
+    %% No Payment Flow
+    PAYMENT_CHECK -->|Não| INTEGRATION_TYPE
+    
+    %% Config and Admission Flow
+    API_CHECK -->|Não| CONFIG_CHECK
+    CONFIG_CHECK -->|Não| ADMISSION_CHECK
+    ADMISSION_CHECK -->|Sim| SIGN_CONTRACT1
+    SIGN_CONTRACT1 --> SEND_DOCS1
+    SEND_DOCS1 --> SELECTION_PROCESS1
+    SELECTION_PROCESS1 --> ENROLL_DATA
+    ADMISSION_CHECK -->|Não| ENROLL_DATA
+    
+    CONFIG_CHECK -->|Sim| ENROLL_CHECK
+    ENROLL_CHECK -->|Sim| SIGN_CONTRACT2
+    ENROLL_CHECK -->|Não| SELECTION_PROCESS2
+    SIGN_CONTRACT2 --> SEND_DOCS2
+    SEND_DOCS2 --> SELECTION_PROCESS2
+    SELECTION_PROCESS2 --> ENROLL_DATA
+    
+    %% Non-Digital Admission
+    DIGITAL_ADMISSION -->|Não| API_INTEGRATION
+    API_INTEGRATION -->|Kroton| KROTON_CHECK
+    KROTON_CHECK -->|Semipresencial| SYNC_COURSE
+    SYNC_COURSE --> POPULATE_BD1
+    POPULATE_BD1 --> SEND_STUDENT_DATA1
+    SEND_STUDENT_DATA1 --> KROTON_ERROR_1
+    KROTON_ERROR_1 -->|Sim| AUTO_RESEND
+    KROTON_ERROR_1 -->|Não| IES_NOTIFY
+    AUTO_RESEND --> IES_NOTIFY
+    
+    KROTON_CHECK -->|Presencial| POPULATE_BD2
+    POPULATE_BD2 --> SEND_STUDENT_DATA2
+    SEND_STUDENT_DATA2 --> KROTON_ERROR_1
+    
+    API_INTEGRATION -->|Estácio| POPULATE_BD3
+    POPULATE_BD3 --> SEND_ONETRUST
+    SEND_ONETRUST --> SEND_STUDENT_DATA3
+    SEND_STUDENT_DATA3 --> ESTACIO_ERROR
+    ESTACIO_ERROR -->|Sim| MANUAL_SEND
+    ESTACIO_ERROR -->|Não| IES_NOTIFY
+    MANUAL_SEND --> IES_NOTIFY
+    IES_NOTIFY --> MANUAL_ENROLL
+    MANUAL_ENROLL --> END1
+    
+    %% Integration Types
+    INTEGRATION_TYPE --> API_INTEGRATION
+    API_INTEGRATION -->|Sim| KROTON_CHECK
+    KROTON_CHECK -->|Kroton| POPULATE_LEADS2
+    POPULATE_LEADS2 --> SEND_ONETRUST2
+    SEND_ONETRUST2 --> SEND_LEADS2
+    SEND_LEADS2 --> END2
+    
+    KROTON_CHECK -->|Estácio| POPULATE_LEADS1
+    POPULATE_LEADS1 --> SEND_LEADS1
+    SEND_LEADS1 --> END2
+    
+    API_INTEGRATION -->|Crawler| POPULATE_BOT
+    POPULATE_BOT --> SEND_LEAD_IES
+    SEND_LEAD_IES --> END2
+    
+    END2 --> END1
+
+    %% Comment connections
+    COMMENT1 -.-> SYNC_COURSE
+    COMMENT2 -.-> POPULATE_BD1
+    COMMENT3 -.-> SEND_STUDENT_DATA1
+    COMMENT4 -.-> POPULATE_BD2
+    COMMENT5 -.-> SEND_STUDENT_DATA2
+    COMMENT6 -.-> AUTO_RESEND
+    COMMENT7 -.-> POPULATE_BD3
+    COMMENT8 -.-> SEND_ONETRUST
+    COMMENT9 -.-> SEND_STUDENT_DATA3
+    COMMENT10 -.-> POPULATE_LEADS1
+
+    %% Styling
     classDef pinkDecision fill:#ffb3d9,stroke:#ff69b4,stroke-width:2px,color:#000000
     classDef yellowStartEnd fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000000
     classDef greenComment fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
     classDef greyAction fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
 
-    %% Apply classes to nodes
-    class IF1,IF2,IF3,IF4,IF5,IF6,IF7,IF8,IF9,IF10,IF11,IF12,IF13,IF14,IF15,IF16,IF17 pinkDecision
-    class INICIO,FIM,LEAD yellowStartEnd
-    class COMMENT1,COMMENT2,COMMENT3,COMMENT4,COMMENT5,COMMENT6,COMMENT7,COMMENT8,COMMENT9,COMMENT10,COMMENT11,COMMENT12,COMMENT13 greenComment
-    class AC1,AC2,AC3,AC4,AC5,AC6,AC7,AC8,AC9,AC10,AC11,AC12,AC13,AC14,AC15,AC16,AC17,AC18,AC19,AC20,AC21,AC22,AC23,AC24,AC25,AC26,AC27,AC28,AC29,AC30,AC31 greyAction
-
-    %% 🎨 Enhanced subgraph styling
-    style SG1 fill:#f0f8ff,stroke:#4682b4,stroke-width:3px,color:#000000
-    style SG2 fill:#fff5ee,stroke:#ff6347,stroke-width:3px,color:#000000
-    style SG3 fill:#f0fff0,stroke:#228b22,stroke-width:3px,color:#000000
-    style SG4 fill:#fff0f5,stroke:#db7093,stroke-width:3px,color:#000000
-    style SG5 fill:#f5f0ff,stroke:#9370db,stroke-width:3px,color:#000000
+    class PAYMENT_CHECK,DIGITAL_ADMISSION,API_CHECK,DOC_CHECK,INTEGRATION_TYPE,API_INTEGRATION,KROTON_CHECK,KROTON_MODE,KROTON_ERROR_1,ESTACIO_ERROR,CONFIG_CHECK,ADMISSION_CHECK,ENROLL_CHECK pinkDecision
+    class START,END1,END2 yellowStartEnd
+    class COMMENT1,COMMENT2,COMMENT3,COMMENT4,COMMENT5,COMMENT6,COMMENT7,COMMENT8,COMMENT9,COMMENT10 greenComment
+    class CADASTRO,SEND_DOCS,REJECT_DOCS,ENROLL_DATA,STUDENT_ENROLLED,VOUCHER,MANUAL_ENROLL,SIGN_CONTRACT1,SEND_DOCS1,SELECTION_PROCESS1,SIGN_CONTRACT2,SEND_DOCS2,SELECTION_PROCESS2,SYNC_COURSE,POPULATE_BD1,SEND_STUDENT_DATA1,POPULATE_BD2,SEND_STUDENT_DATA2,AUTO_RESEND,POPULATE_BD3,SEND_ONETRUST,SEND_STUDENT_DATA3,IES_NOTIFY,MANUAL_SEND,POPULATE_LEADS1,SEND_LEADS1,POPULATE_LEADS2,SEND_ONETRUST2,SEND_LEADS2,POPULATE_BOT,SEND_LEAD_IES greyAction
 ```
+
+---
+
+## Referências Técnicas
+
+- **[Kroton Lead Integration](kroton-lead-integration.md)**: Documentação completa da integração com APIs Kroton, incluindo OAuth2, Elasticsearch e processamento de matrículas
+- **[Estácio Lead Integration](estacio-lead-integration.md)**: Documentação detalhada da integração Estácio com compliance LGPD via OneTrust
+- **Databricks**: Importação diária de dados de alunos e ordens
+- **APIs de Terceiros**: Integrações diretas com sistemas das IES parceiras

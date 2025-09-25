@@ -1,4 +1,4 @@
-
+```mermaid
 %%{init: {
     "theme": "default",
     "themeVariables": {
@@ -18,6 +18,21 @@
 }}%%
 
 flowchart TD
+    %% Green comment nodes based on the image
+    COMMENT1@{ shape: comment, label: "Essa rotina roda a cada 3h pegando, do BD da IES, os dias de aula presencial dos cursos Semi" }
+    COMMENT2@{ shape: comment, label: "cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
+    COMMENT3@{ shape: comment, label: "cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id e os dias de presencial" }
+    COMMENT4@{ shape: comment, label: "cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
+    COMMENT5@{ shape: comment, label: "cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id" }
+    COMMENT6@{ shape: comment, label: "existe um cron job 'checker' que verifica o status do aluno na IES." }
+    COMMENT7@{ shape: comment, label: "cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
+    COMMENT8@{ shape: comment, label: "Cron job que roda a cada 2h entre as 6h e 18, responsável por enviar dados para plataforma de LGPD (Onetrust)" }
+    COMMENT9@{ shape: comment, label: "Cron job que roda a cada 1h entre as 10h e 14h. Enviamos os dados do aluno + cod_campus cod_turno, cod_curso, cod_forma_ingresso" }
+    COMMENT10@{ shape: comment, label: "Define type captação com base no checkout_step. Se initiated ou registered = captação." }
+    COMMENT11@{ shape: comment, label: "Cron job com envio diário as 8h. Envia course_offer (dado feito com base em algumas queries)" }
+    COMMENT12@{ shape: comment, label: "IES que usam Crawler: Belas Artes, Kroton Pós, FMU e Anima Presencial e EaD. Usamos o mesmo bot todas as IES." }
+    COMMENT13@{ shape: comment, label: "" }
+
     %% Início e fim do processo
     INICIO(["Aluno se interessa pela bolsa (CTA - Quero esta bolsa)"])
     FIM(["Fim"])
@@ -171,6 +186,21 @@ flowchart TD
     AC31 --> LEAD
     
     LEAD --> FIM
+
+    %% Green comment connections (dotted lines to show context)
+    COMMENT1 -.-> AC12
+    COMMENT2 -.-> AC13
+    COMMENT3 -.-> AC14
+    COMMENT4 -.-> AC15
+    COMMENT5 -.-> AC16
+    COMMENT6 -.-> AC17
+    COMMENT7 -.-> AC18
+    COMMENT8 -.-> AC19
+    COMMENT9 -.-> AC20
+    COMMENT10 -.-> AC25
+    COMMENT11 -.-> AC26
+    COMMENT12 -.-> IF17
+    COMMENT13 -.-> AC30
     
     %% Custom styling for subgraphs with better browser compatibility
     style SG1 fill:#f0f8ff,stroke:#4682b4,stroke-width:2px,color:#000000
@@ -178,3 +208,4 @@ flowchart TD
     style SG3 fill:#f0fff0,stroke:#228b22,stroke-width:2px,color:#000000
     style SG4 fill:#fff5ee,stroke:#ff6347,stroke-width:2px,color:#000000
     style SG5 fill:#f5f0ff,stroke:#9370db,stroke-width:2px,color:#000000
+    ```

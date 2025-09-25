@@ -143,9 +143,10 @@ flowchart LR
     IF16{"🎓 Estácio"}
 
     %% Main flowchart connections
-    INICIO --> IF1
+    INICIO --> AC7
+    AC7 --> IF1
     IF1 -->|Sim| IF2
-    IF1 -->|Não| AC7
+    IF1 -->|Não| IF13
     IF2 -->|Digital| IF5  
     IF2 -->|Manual| AC1
     IF5 -->|Sim| AC8
@@ -189,7 +190,6 @@ flowchart LR
     AC22 --> FIM
     AC23 --> AC24
     AC24 --> FIM
-    AC7 --> IF13
     IF13 --> IF14
     IF14 -->|API| IF15
     IF14 -->|Crawler| IF17

@@ -1,8 +1,22 @@
 # Fluxo de Inscrições - Sistema Integrado QueroEdu
 
-## Descrição do Processo
+## Descriçã       COMMENT8["📝 🔐 Cron job que roda a cada 2h entre as 6h e 18h, responsável por enviar dados para plataforma de LGPD (Onetrust)"]   COMMENT8["📝 🔐 Cron job que roda a cada 2h entre as 6h e 18h, responsável por enviar dados para plataforma de LGPD (Onetrust)"]%% Subgraph for initial decision
+    subgraph SG1 ["🚀 Início do Processo"]
+        IF1{"❓ admission_created"}
+    end
 
-Este diagrama representa o **fluxo completo de inscrições** do ecossistema QueroEdu, desde o interesse inicial do aluno até a finalização da matrícula ou captação de leads. O processo contempla múltiplas modalidades de integração com diferentes Instituições de Ensino Superior (IES), incluindo integrações diretas via API, processamento por crawler e envios manuais.
+    %% Subgraph for admission configuration  
+    subgraph SG2 ["⚙️ Configuração de Admissão"]
+        IF2{"⚙️ Config de Admissão"}
+        IF5{"🔐 Admissão Digital?"}
+    end
+
+    %% Subgraph for document handling
+    subgraph SG3 ["📄 Processamento de Documentos"]
+        AC1["✍️ Assina o contrato"]
+        AC2["📤 Envio dos documentos"]
+        AC8["📄 Aluno envia documentos"]
+        AC9["❌ Rejeitar documentos"]te diagrama representa o **fluxo completo de inscrições** do ecossistema QueroEdu, desde o interesse inicial do aluno até a finalização da matrícula ou captação de leads. O processo contempla múltiplas modalidades de integração com diferentes Instituições de Ensino Superior (IES), incluindo integrações diretas via API, processamento por crawler e envios manuais.
 
 ### Principais Características:
 

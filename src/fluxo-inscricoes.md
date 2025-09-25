@@ -234,22 +234,22 @@ flowchart TD
     COMMENT12 -.-> IF17
     COMMENT13 -.-> AC30
 
-    %% 🎨 Node Styling - Colors matching the JPG image
+    %% 🎨 Node Styling - Pastel Colors for better readability
     
-    %% 💛 Yellow - Start/End nodes
-    classDef yellowNodes fill:#FFE066,stroke:#333,stroke-width:2px,color:#000
+    %% 🌼 Pastel Yellow - Start/End nodes
+    classDef yellowNodes fill:#FFF5B7,stroke:#B8860B,stroke-width:2px,color:#2C1810
     class INICIO,FIM,LEAD yellowNodes
     
-    %% 🌸 Pink - Decision (IF) nodes  
-    classDef pinkNodes fill:#FF69B4,stroke:#333,stroke-width:2px,color:#fff
+    %% 🌸 Pastel Pink - Decision (IF) nodes  
+    classDef pinkNodes fill:#F8BBD9,stroke:#C2185B,stroke-width:2px,color:#4A0E2E
     class IF1,IF2,IF3,IF4,IF5,IF6,IF7,IF8,IF9,IF10,IF11,IF12,IF13,IF14,IF15,IF16,IF17 pinkNodes
     
-    %% 💚 Green - Comment nodes
-    classDef greenNodes fill:#90EE90,stroke:#333,stroke-width:2px,color:#000
+    %% 💚 Pastel Green - Comment nodes
+    classDef greenNodes fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px,color:#1B4332
     class COMMENT1,COMMENT2,COMMENT3,COMMENT4,COMMENT5,COMMENT6,COMMENT7,COMMENT8,COMMENT9,COMMENT10,COMMENT11,COMMENT12,COMMENT13 greenNodes
     
-    %% 🔘 Grey - Action nodes
-    classDef greyNodes fill:#D3D3D3,stroke:#333,stroke-width:2px,color:#000
+    %% 🔘 Pastel Grey - Action nodes
+    classDef greyNodes fill:#F0F0F0,stroke:#616161,stroke-width:2px,color:#212121
     class AC1,AC2,AC3,AC4,AC5,AC6,AC7,AC8,AC9,AC10,AC11,AC12,AC13,AC14,AC15,AC16,AC17,AC18,AC19,AC20,AC21,AC22,AC23,AC24,AC25,AC26,AC27,AC28,AC29,AC30,AC31 greyNodes
 
 ```

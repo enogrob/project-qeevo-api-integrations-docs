@@ -18,95 +18,95 @@
 }}%%
 
 flowchart TD
-    %% Green comment nodes based on the image
-    COMMENT1@{ shape: comment, label: "Essa rotina roda a cada 3h pegando, do BD da IES, os dias de aula presencial dos cursos Semi" }
-    COMMENT2@{ shape: comment, label: "cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
-    COMMENT3@{ shape: comment, label: "cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id e os dias de presencial" }
-    COMMENT4@{ shape: comment, label: "cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
-    COMMENT5@{ shape: comment, label: "cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id" }
-    COMMENT6@{ shape: comment, label: "existe um cron job 'checker' que verifica o status do aluno na IES." }
-    COMMENT7@{ shape: comment, label: "cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
-    COMMENT8@{ shape: comment, label: "Cron job que roda a cada 2h entre as 6h e 18, responsável por enviar dados para plataforma de LGPD (Onetrust)" }
-    COMMENT9@{ shape: comment, label: "Cron job que roda a cada 1h entre as 10h e 14h. Enviamos os dados do aluno + cod_campus cod_turno, cod_curso, cod_forma_ingresso" }
-    COMMENT10@{ shape: comment, label: "Define type captação com base no checkout_step. Se initiated ou registered = captação." }
-    COMMENT11@{ shape: comment, label: "Cron job com envio diário as 8h. Envia course_offer (dado feito com base em algumas queries)" }
-    COMMENT12@{ shape: comment, label: "IES que usam Crawler: Belas Artes, Kroton Pós, FMU e Anima Presencial e EaD. Usamos o mesmo bot todas as IES." }
-    COMMENT13@{ shape: comment, label: "" }
+    %% 💬 Green comment nodes based on the image
+    COMMENT1@{ shape: comment, label: "🔄 Essa rotina roda a cada 3h pegando, do BD da IES, os dias de aula presencial dos cursos Semi" }
+    COMMENT2@{ shape: comment, label: "📊 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
+    COMMENT3@{ shape: comment, label: "📤 Cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id e os dias de presencial" }
+    COMMENT4@{ shape: comment, label: "💾 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
+    COMMENT5@{ shape: comment, label: "🚀 Cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id" }
+    COMMENT6@{ shape: comment, label: "✅ Existe um cron job 'checker' que verifica o status do aluno na IES" }
+    COMMENT7@{ shape: comment, label: "💿 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?" }
+    COMMENT8@{ shape: comment, label: "🔐 Cron job que roda a cada 2h entre as 6h e 18, responsável por enviar dados para plataforma de LGPD (Onetrust)" }
+    COMMENT9@{ shape: comment, label: "📋 Cron job que roda a cada 1h entre as 10h e 14h. Enviamos os dados do aluno + cod_campus cod_turno, cod_curso, cod_forma_ingresso" }
+    COMMENT10@{ shape: comment, label: "🎯 Define type captação com base no checkout_step. Se initiated ou registered = captação" }
+    COMMENT11@{ shape: comment, label: "📤 Cron job com envio diário as 8h. Envia course_offer (dado feito com base em algumas queries)" }
+    COMMENT12@{ shape: comment, label: "🤖 IES que usam Crawler: Belas Artes, Kroton Pós, FMU e Anima Presencial e EaD. Usamos o mesmo bot todas as IES" }
+    COMMENT13@{ shape: comment, label: "🔍 Processo de verificação e envio automático" }
 
-    %% Início e fim do processo
-    INICIO(["Aluno se interessa pela bolsa (CTA - Quero esta bolsa)"])
-    FIM(["Fim"])
-    LEAD(["Lead 'Vendido'"])
+    %% 🟡 Início e fim do processo (Yellow START/END nodes)
+    INICIO(["🚀 Aluno se interessa pela bolsa (CTA - Quero esta bolsa)"])
+    FIM(["✅ Fim"])
+    LEAD(["💡 Lead 'Vendido'"])
     
     %% Subgraph para processo de cadastro
     subgraph SG1 ["📝 Processo de Cadastro"]
-        AC7["Cadastro (E-mail, CPF, Nome, Nascimento, Celular e CEP)"]
-        AC8["Aluno envia documentos"]
-        AC9["Rejeitar documentos"]
-        AC10["Matricula com dados do aluno"]
-        AC11["Aluno matriculado"]
-        AC23["Aluno recebe comprovante da bolsa"]
-        AC24["Matricula no balcão da IES"]
+        AC7["📋 Cadastro (E-mail, CPF, Nome, Nascimento, Celular e CEP)"]
+        AC8["📄 Aluno envia documentos"]
+        AC9["❌ Rejeitar documentos"]
+        AC10["✏️ Matrícula com dados do aluno"]
+        AC11["🎓 Aluno matriculado"]
+        AC23["📄 Aluno recebe comprovante da bolsa"]
+        AC24["🏢 Matrícula no balcão da IES"]
     end
     
     %% Subgraph para processo de contrato
     subgraph SG2 ["📋 Processo de Contrato"]
-        AC1["Assina o contrato"]
-        AC2["Envio dos documentos"]
-        AC3["Processo Seletivo"]
-        AC4["Assina o contrato"]
-        AC5["Envia dos documentos"]
-        AC6["Processo Seletivo"]
+        AC1["✍️ Assina o contrato"]
+        AC2["📤 Envio dos documentos"]
+        AC3["🎯 Processo Seletivo"]
+        AC4["✍️ Assina o contrato"]
+        AC5["📤 Envia dos documentos"]
+        AC6["🎯 Processo Seletivo"]
     end
     
     %% Subgraph para integração Kroton
     subgraph SG3 ["🏫 Integração Kroton"]
-        AC12["Cron Job 'sync_course'"]
-        AC13["Popula BD de inscrições"]
-        AC14["Envio dos dados do Aluno para IES"]
-        AC15["Popula BD de inscrições"]
-        AC16["Envio dos dados do Aluno para IES"]
-        AC17["Reenvio dos dados automáticamente"]
+        AC12["⏰ Cron Job 'sync_course'"]
+        AC13["💾 Popula BD de inscrições"]
+        AC14["📤 Envio dos dados do Aluno para IES"]
+        AC15["💾 Popula BD de inscrições"]
+        AC16["📤 Envio dos dados do Aluno para IES"]
+        AC17["🔄 Reenvio dos dados automáticamente"]
     end
     
     %% Subgraph para integração Estácio
     subgraph SG4 ["🎓 Integração Estácio"]
-        AC18["Popula BD de inscrições"]
-        AC19["Envio dos dados do Aluno para Onetrust"]
-        AC20["Envio dos dados do Aluno para IES"]
-        AC21["IES nos avisa"]
-        AC22["Envio manual"]
+        AC18["💾 Popula BD de inscrições"]
+        AC19["🔐 Envio dos dados do Aluno para Onetrust"]
+        AC20["📤 Envio dos dados do Aluno para IES"]
+        AC21["📞 IES nos avisa"]
+        AC22["✋ Envio manual"]
     end
     
     %% Subgraph para captação de leads
     subgraph SG5 ["🎯 Captação de Leads"]
-        AC25["Popula BD de inscrições, mas separa com type captação"]
-        AC26["Envio dos leads para IES"]
-        AC27["Popula BD de inscrições, mas separa com codAgentPdv = 14412833"]
-        AC28["Envia dados do lead para Onetrust"]
-        AC29["Envio dos dados dos leads para IES"]
-        AC30["Popula banco 'subscribe_bot'"]
-        AC31["Envio do lead para a IES"]
+        AC25["💾 Popula BD de inscrições, mas separa com type captação"]
+        AC26["📤 Envio dos leads para IES"]
+        AC27["💾 Popula BD de inscrições, mas separa com codAgentPdv = 14412833"]
+        AC28["🔐 Envia dados do lead para Onetrust"]
+        AC29["📤 Envio dos dados dos leads para IES"]
+        AC30["💾 Popula banco 'subscribe_bot'"]
+        AC31["📤 Envio do lead para a IES"]
     end
     
-    %% Decisões principais
-    IF1{admission_created?}
-    IF2{Config de Admissão?}
-    IF3{admission_enroll?}
-    IF4{Pagamento PEF?}
-    IF5{Admissão Digital?}
-    IF6{API de inscrições aluno?}
-    IF7{Documentação correta?}
-    IF8{Modalidade Kroton}
-    IF9{Erro no envio?}
-    IF10{API de inscrições aluno?}
-    IF11{Estácio}
-    IF12{Erro no envio?}
-    IF13{Tipo de Integração}
-    IF14{API}
-    IF15{Kroton}
-    IF16{Estácio}
-    IF17{Crawler}
+    %% 🌸 Decisões principais (Pink IF nodes)
+    IF1{"❓ admission_created?"}
+    IF2{"⚙️ Config de Admissão?"}
+    IF3{"📝 admission_enroll?"}
+    IF4{"💳 Pagamento PEF?"}
+    IF5{"📱 Admissão Digital?"}
+    IF6{"🔌 API de inscrições aluno?"}
+    IF7{"📋 Documentação correta?"}
+    IF8{"🏫 Modalidade Kroton?"}
+    IF9{"⚠️ Erro no envio?"}
+    IF10{"🔌 API de inscrições aluno?"}
+    IF11{"🎓 Estácio?"}
+    IF12{"⚠️ Erro no envio?"}
+    IF13{"🔄 Tipo de Integração?"}
+    IF14{"🔌 API?"}
+    IF15{"🏫 Kroton?"}
+    IF16{"🎓 Estácio?"}
+    IF17{"🤖 Crawler?"}
     
     %% Fluxo principal
     INICIO --> AC7
@@ -187,7 +187,7 @@ flowchart TD
     
     LEAD --> FIM
 
-    %% Green comment connections (dotted lines to show context)
+    %% 💬 Green comment connections (dotted lines to show context)
     COMMENT1 -.-> AC12
     COMMENT2 -.-> AC13
     COMMENT3 -.-> AC14
@@ -202,10 +202,27 @@ flowchart TD
     COMMENT12 -.-> IF17
     COMMENT13 -.-> AC30
     
-    %% Custom styling for subgraphs with better browser compatibility
-    style SG1 fill:#f0f8ff,stroke:#4682b4,stroke-width:2px,color:#000000
-    style SG2 fill:#f5f5f5,stroke:#696969,stroke-width:2px,color:#000000
-    style SG3 fill:#f0fff0,stroke:#228b22,stroke-width:2px,color:#000000
-    style SG4 fill:#fff5ee,stroke:#ff6347,stroke-width:2px,color:#000000
-    style SG5 fill:#f5f0ff,stroke:#9370db,stroke-width:2px,color:#000000
-    ```
+    %% 🎨 Pastel Color Styling for better browser display
+    
+    %% 🌸 Pink IF nodes (Decision nodes)
+    classDef pinkDecision fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    class IF1,IF2,IF3,IF4,IF5,IF6,IF7,IF8,IF9,IF10,IF11,IF12,IF13,IF14,IF15,IF16,IF17 pinkDecision
+    
+    %% 🟡 Yellow START/END nodes
+    classDef yellowStartEnd fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000000
+    class INICIO,FIM,LEAD yellowStartEnd
+    
+    %% 🟢 Green COMMENT nodes
+    classDef greenComment fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#ffffff
+    class COMMENT1,COMMENT2,COMMENT3,COMMENT4,COMMENT5,COMMENT6,COMMENT7,COMMENT8,COMMENT9,COMMENT10,COMMENT11,COMMENT12,COMMENT13 greenComment
+    
+    %% ⚪ Grey ACTION nodes (All process/action nodes)
+    classDef greyAction fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    class AC1,AC2,AC3,AC4,AC5,AC6,AC7,AC8,AC9,AC10,AC11,AC12,AC13,AC14,AC15,AC16,AC17,AC18,AC19,AC20,AC21,AC22,AC23,AC24,AC25,AC26,AC27,AC28,AC29,AC30,AC31 greyAction
+    
+    %% 🎨 Enhanced subgraph styling with emoticons and pastel colors
+    style SG1 fill:#f0f8ff,stroke:#4682b4,stroke-width:3px,color:#000000
+    style SG2 fill:#fff5ee,stroke:#ff6347,stroke-width:3px,color:#000000
+    style SG3 fill:#f0fff0,stroke:#228b22,stroke-width:3px,color:#000000
+    style SG4 fill:#fff0f5,stroke:#db7093,stroke-width:3px,color:#000000
+    style SG5 fill:#f5f0ff,stroke:#9370db,stroke-width:3px,color:#000000

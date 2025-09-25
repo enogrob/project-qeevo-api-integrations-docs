@@ -204,25 +204,82 @@ flowchart TD
     
     %% 🎨 Pastel Color Styling for better browser display
     
-    %% 🌸 Pink IF nodes (Decision nodes)
-    classDef pinkDecision fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    class IF1,IF2,IF3,IF4,IF5,IF6,IF7,IF8,IF9,IF10,IF11,IF12,IF13,IF14,IF15,IF16,IF17 pinkDecision
-    
+    %% 🌸 Pink IF nodes (Decision nodes) - Fixed styling
+    style IF1 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF2 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF3 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF4 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF5 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF6 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF7 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF8 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF9 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF10 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF11 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF12 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF13 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF14 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF15 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF16 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    style IF17 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+
     %% 🟡 Yellow START/END nodes
-    classDef yellowStartEnd fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000000
-    class INICIO,FIM,LEAD yellowStartEnd
-    
-    %% 🟢 Green COMMENT nodes
-    classDef greenComment fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#ffffff
-    class COMMENT1,COMMENT2,COMMENT3,COMMENT4,COMMENT5,COMMENT6,COMMENT7,COMMENT8,COMMENT9,COMMENT10,COMMENT11,COMMENT12,COMMENT13 greenComment
-    
+    style INICIO fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000000
+    style FIM fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000000
+    style LEAD fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000000
+
+    %% 🟢 Green COMMENT nodes - Changed to darker font
+    style COMMENT1 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT2 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT3 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT4 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT5 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT6 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT7 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT8 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT9 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT10 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT11 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT12 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+    style COMMENT13 fill:#d5e8d4,stroke:#82b366,stroke-width:2px,color:#2d5a3d
+
     %% ⚪ Grey ACTION nodes (All process/action nodes)
-    classDef greyAction fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
-    class AC1,AC2,AC3,AC4,AC5,AC6,AC7,AC8,AC9,AC10,AC11,AC12,AC13,AC14,AC15,AC16,AC17,AC18,AC19,AC20,AC21,AC22,AC23,AC24,AC25,AC26,AC27,AC28,AC29,AC30,AC31 greyAction
-    
+    style AC1 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC2 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC3 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC4 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC5 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC6 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC7 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC8 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC9 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC10 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC11 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC12 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC13 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC14 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC15 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC16 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC17 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC18 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC19 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC20 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC21 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC22 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC23 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC24 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC25 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC26 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC27 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC28 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC29 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC30 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+    style AC31 fill:#f5f5f5,stroke:#666666,stroke-width:2px,color:#000000
+
     %% 🎨 Enhanced subgraph styling with emoticons and pastel colors
     style SG1 fill:#f0f8ff,stroke:#4682b4,stroke-width:3px,color:#000000
     style SG2 fill:#fff5ee,stroke:#ff6347,stroke-width:3px,color:#000000
     style SG3 fill:#f0fff0,stroke:#228b22,stroke-width:3px,color:#000000
     style SG4 fill:#fff0f5,stroke:#db7093,stroke-width:3px,color:#000000
     style SG5 fill:#f5f0ff,stroke:#9370db,stroke-width:3px,color:#000000
+```

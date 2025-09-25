@@ -146,7 +146,9 @@ flowchart LR
     INICIO --> IF1
     IF1 -->|Sim| IF2
     IF1 -->|Não| AC7
-    AC7 --> IF13
+    AC7 --> IF4
+    IF4 -->|Sim| IF6
+    IF4 -->|Não| IF13
     IF2 -->|Digital| IF5  
     IF2 -->|Manual| AC1
     IF5 -->|Sim| AC8

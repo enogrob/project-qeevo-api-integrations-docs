@@ -204,24 +204,24 @@ flowchart TD
     
     %% 🎨 Pastel Color Styling for better browser display
     
-    %% 🌸 Pink IF nodes (Decision nodes) - Fixed styling
-    style IF1 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF2 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF3 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF4 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF5 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF6 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF7 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF8 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF9 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF10 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF11 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF12 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF13 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF14 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF15 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF16 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
-    style IF17 fill:#f8cecc,stroke:#b85450,stroke-width:2px,color:#000000
+    %% 🌸 Pink IF nodes (Decision nodes) - Fixed with proper pastel pink colors
+    style IF1 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF2 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF3 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF4 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF5 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF6 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF7 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF8 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF9 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF10 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF11 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF12 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF13 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF14 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF15 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF16 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
+    style IF17 fill:#ffc0cb,stroke:#ff69b4,stroke-width:2px,color:#000000
 
     %% 🟡 Yellow START/END nodes
     style INICIO fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000000

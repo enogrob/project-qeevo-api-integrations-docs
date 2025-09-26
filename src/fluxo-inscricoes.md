@@ -2,7 +2,34 @@
 
 ## 📋 Visão Geral
 
-Este documento detalha o fluxo completo de inscrições do sistema QueroEdu, incluindo processos de matrícula, integração com APIs de parceiros e geração de leads para Instituições de Ensino Superior (IES).
+Este documento detalha o fluxo completo de inscrições do sistema QueroEdu, apresentando o processo desde o interesse inicial do aluno até a finalização da matrícula ou geração de leads. O diagrama abaixo ilustra as diferentes rotas e decisões que determinam como cada estudante é processado pelo sistema.
+
+### 🎯 Conceitos Fundamentais
+
+#### 📚 Definições de Status
+- **admission_created**: Aluno comprou conosco e já enviamos a matrícula para a IES, mas isso não o isenta de fazer as outras etapas
+- **admission_enroll**: Assinou o contrato, mandou documentos, fez processo seletivo - aí sim mandamos matrícula para a faculdade
+
+#### 🚀 Ponto de Entrada
+O fluxo inicia quando o aluno demonstra interesse clicando em "Quero esta bolsa", seguido imediatamente pelo processo de cadastro com dados essenciais (E-mail, CPF, Nome, Nascimento, Celular e CEP).
+
+### 🔄 Principais Rotas de Processo
+
+#### 💳 Rota de Pagamento PEF
+Após o cadastro, o sistema verifica se houve pagamento PEF:
+- **Com Pagamento**: Direciona para admissão digital com validação automatizada de documentos
+- **Sem Pagamento**: Encaminha para o fluxo de geração de leads
+
+#### 🔐 Admissão Digital vs Manual
+Para alunos com pagamento confirmado:
+- **Digital**: Processo automatizado com upload e validação de documentos
+- **Manual**: Processo tradicional com assinatura de contrato, envio de documentos e processo seletivo
+
+#### 🏫 Integração com IES
+O sistema suporta múltiplas formas de integração:
+- **API Kroton**: Integração direta com endpoints específicos para cursos semipresenciais e presenciais
+- **API Estácio**: Integração com compliance LGPD através da plataforma OneTrust
+- **Crawler**: Para IES sem API disponível (Belas Artes, Kroton Pós, FMU, Anima)
 
 ### 🔧 Integrações Disponíveis
 
@@ -24,226 +51,70 @@ Para detalhes completos sobre a integração Estácio, consulte: [Estácio Lead 
 - **Tecnologia**: Bot automatizado único para todas as IES
 - **Processo**: Populamento do banco `subscribe_bot` + envio automatizado
 
-### Fluxos de Processo:
+### 📊 Fluxos Detalhados do Sistema
 
-1. **💳 Fluxo PEF (Pagamento)**: Processo completo com admissão digital e validação de documentos
-2. **🔄 Fluxo de Integração**: Direcionamento baseado no tipo de integração disponível
-3. **📝 Fluxo de Captação**: Geração e envio de leads para IES parceiras
-4. **⚠️ Fluxo de Erro**: Tratamento e reenvio automático em caso de falhas
+#### 1. **🚀 Fluxo de Entrada e Cadastro**
+- Captura do interesse do aluno através do CTA
+- Coleta imediata de dados pessoais essenciais
+- Verificação de pagamento PEF como ponto de decisão crítico
 
-```mermaid
-flowchart LR
-    %% 💬 Green comment nodes based on the image
-    COMMENT1["📝 🔄 Essa rotina roda a cada 3h pegando, do BD da IES, os dias de aula presencial dos cursos Semi"]
-    COMMENT2["📝 📊 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?"]
-    COMMENT3["📝 📤 Cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id e os dias de presencial"]
-    COMMENT4["📝 💾 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?"]
-    COMMENT5["📝 🚀 Cron job que roda script que envia os alunos para a IES. Frequência: a cada 3h em minuto 30. Envia dados do aluno + course_id"]
-    COMMENT6["📝 ✅ Existe um cron job 'checker' que verifica o status do aluno na IES"]
-    COMMENT7["📝 💿 Cron job que roda script no Databricks salvando as ordens com status = 'paid' no BD de Inscrição Frequencia: ?"]
-    COMMENT8["📝 🔐 Cron job que roda a cada 2h entre as 6h e 18h, responsável por enviar dados para plataforma de LGPD (Onetrust)"]
-    COMMENT9["📝 📋 Cron job que roda a cada 1h entre as 10h e 14h. Enviamos os dados do aluno + cod_campus cod_turno, cod_curso, cod_forma_ingresso"]
-    COMMENT10["📝 🎯 Define type captação com base no checkout_step. Se initiated ou registered = captação"]
-    COMMENT11["📝 📤 Cron job com envio diário as 8h. Envia course_offer (dado feito com base em algumas queries)"]
-    COMMENT12["📝 🤖 IES que usam Crawler: Belas Artes, Kroton Pós, FMU e Anima Presencial e EaD. Usamos o mesmo bot todas as IES"]
-    COMMENT13["📝 🔍 Processo de verificação e envio automático"]
+#### 2. **💳 Fluxo PEF (Pagamento Confirmado)**
+- **Admissão Digital**: Processo automatizado com validação de documentos em tempo real
+- **Fallback Manual**: Alternativa para casos onde a admissão digital não é aplicável
+- **Integração API**: Roteamento direto para sistemas das IES parceiras
 
-    %% Start and End nodes
-    INICIO(["🚀 Aluno se interessa pela bolsa (CTA - Quero esta bolsa)"])
-    FIM(["✅ Fim"])
-    LEAD(["💡 Lead 'Vendido'"])
-    
-    %% Subgraph for Initial Process
-    subgraph SG1 ["🚀 Processo Inicial"]
-        AC7["� Cadastro (E-mail, CPF, Nome, Nascimento, Celular e CEP)"]
-        IF4{"💳 Pagamento PEF?"}
-    end
-    
-    %% Subgraph for Digital Admission Flow  
-    subgraph SG2 ["🔐 Fluxo Admissão Digital"]
-        IF5{"🔐 Admissão Digital?"}
-        IF6{"🔌 API de inscrições aluno?"}
-        AC8["📄 Aluno envia documentos"]
-        IF7{"📋 Documentação correta?"}
-        AC9["❌ Rejeitar documentos"]
-    end
-    
-    %% Subgraph for Manual Admission Process
-    subgraph SG3 ["✍️ Processo Manual de Admissão"]
-        IF1{"❓ admission_created"}
-        IF2{"⚙️ Config de Admissão"}
-        AC1["✍️ Assina o contrato"]
-        AC2["📤 Envio dos documentos"]
-        AC3["🎯 Processo Seletivo"]
-        IF3{"📝 admission_enroll"}
-    end
-    
-    %% Subgraph for Alternative Manual Process
-    subgraph SG4 ["✋ Processo Manual Alternativo"]
-        AC4["✍️ Assina o contrato"]
-        AC5["📤 Envia dos documentos"]
-        AC6["🎯 Processo Seletivo"]
-    end
-    
-    %% Subgraph for Final Enrollment
-    subgraph SG5 ["🎓 Finalização da Matrícula"]
-        AC10["✏️ Matrícula com dados do aluno"]
-        AC11["🎓 Aluno matriculado"]
-    end
-    
-    %% Subgraph for Kroton Integration
-    subgraph SG6 ["🏫 Integração Kroton"]
-        IF8{"🏫 Kroton"}
-        AC12["⏰ Cron Job 'sync_course'"]
-        AC13["💾 Popula BD de inscrições"]
-        AC14["📤 Envio dos dados do Aluno para IES"]
-        AC15["📊 Popula BD de inscrições"]
-        AC16["📤 Envio dos dados do Aluno para IES"]
-        IF9{"⚠️ Erro no envio?"}
-        AC17["🔄 Reenvio dos dados automáticamente"]
-    end
-    
-    %% Subgraph for Estácio Integration
-    subgraph SG7 ["🎓 Integração Estácio"]
-        IF11{"🎓 Estácio"}
-        AC18["💾 Popula BD de inscrições"]
-        AC19["🔐 Envio dos dados do Aluno para Onetrust"]
-        AC20["📤 Envio dos dados do Aluno para IES"]
-        IF12{"⚠️ Erro no envio?"}
-        AC21["📞 IES nos avisa"]
-        AC22["✋ Envio manual"]
-    end
-    
-    %% Subgraph for Manual/Fallback Process
-    subgraph SG8 ["📄 Processo Manual/Comprovante"]
-        IF10{"🔌 API de inscrições aluno?"}
-        AC23["📄 Aluno recebe comprovante da bolsa"]
-        AC24["🏢 Matrícula no balcão da IES"]
-    end
-    
-    %% Subgraph for Lead Generation
-    subgraph SG9 ["📋 Geração de Leads"]
-        IF13{"🔄 Tipo de Integração?"}
-        IF14{"🔌 API"}
-        IF15{"🏫 Kroton"}
-        IF16{"🎓 Estácio"}
-        IF17{"🤖 Crawler"}
-    end
-    
-    %% Subgraph for Lead Processing
-    subgraph SG10 ["📤 Processamento de Leads"]
-        AC25["💾 Popula BD de inscrições, mas separa com type captação"]
-        AC26["📤 Envio dos leads para IES"]
-        AC27["💾 Popula BD de inscrições, mas separa com codAgentPdv = 14412833"]
-        AC28["🔐 Envia dados do lead para Onetrust"]
-        AC29["📤 Envio dos dados dos leads para IES"]
-        AC30["💾 Popula banco 'subscribe_bot'"]
-        AC31["📤 Envio do lead para a IES"]
-    end
+#### 3. **🔄 Fluxo de Integração com IES**
+- **Kroton Semipresencial/Presencial**: Diferentes pipelines conforme modalidade do curso
+- **Estácio**: Processo com etapa adicional de compliance LGPD via OneTrust  
+- **Processo Manual**: Para IES que requerem intervenção humana
+- **Sistema de Retry**: Reenvio automático em caso de falhas de comunicação
 
-    %% Additional nodes for completeness
+#### 4. **📝 Fluxo de Geração de Leads**
+- Ativado para alunos sem pagamento PEF confirmado
+- **Roteamento por Tipo**: API direta ou Crawler conforme disponibilidade da IES
+- **Segmentação**: Leads marcados com códigos específicos para tracking
+- **Distribuição**: Envio formatado conforme especificações de cada parceiro
 
-    %% Main flowchart connections
-    INICIO --> AC7
-    AC1 --> AC2
-    AC2 --> AC3
-    AC3 --> AC10
-    AC4 --> AC5
-    AC5 --> AC6
-    AC6 --> AC10
-    AC7 --> IF4
-    AC8 --> IF7
-    AC9 --> AC8
-    AC10 --> AC11
-    AC11 --> FIM
-    AC12 --> AC13
-    AC13 --> AC14
-    AC14 --> IF9
-    AC15 --> AC16
-    AC16 --> IF9
-    AC17 --> AC10
-    AC18 --> AC19
-    AC19 --> AC20
-    AC20 --> IF12
-    AC21 --> AC22
-    AC22 --> AC10
-    AC23 --> AC24
-    AC24 --> AC11
-    AC25 --> AC26
-    AC26 --> LEAD
-    AC27 --> AC28
-    AC28 --> AC29
-    AC29 --> LEAD
-    AC30 --> AC31
-    AC31 --> LEAD
+#### 5. **⚠️ Tratamento de Erros e Fallbacks**
+- Monitoramento contínuo através de cron jobs verificadores
+- Reprocessamento automático para falhas temporárias
+- Escalação para processo manual quando necessário
+- Notificações para equipes de suporte em casos críticos
 
-    IF1 -->|Sim| AC1
-    IF1 -->|Não| AC10
-    IF2 --> IF1
-    IF2 --> IF3
-    IF3 -->|Sim| AC4
-    IF3 -->|Não| AC10
-    IF4 -->|Sim| IF5
-    IF4 -->|Não| IF13
-    IF5 -->|Sim| IF6
-    IF5 -->|Não| IF10
-    IF6 -->|Sim| AC8
-    IF6 -->|Não| IF2
-    IF7 -->|Sim| AC10 
-    IF7 -->|Não| AC9
-    IF8 -->|Semipresencial| AC12 
-    IF8 -->|Presencial| AC15
-    IF9 -->|Sim| AC17
-    IF9 -->|Não| AC10
-    IF10 -->|Kroton| IF8
-    IF10 -->|Estácio| IF11
-    IF10 -->|Não| AC23
-    IF11 --> AC18
-    IF12 -->|Sim| AC21
-    IF12 -->|Não| AC10
-    IF13 -->|Sim| IF14
-    IF13 -->|Não| IF17
-    IF14 -->|Kroton| IF15
-    IF14 -->|Estácio| IF16
-    IF15 --> AC25
-    IF16 --> AC27
-    IF17 --> AC30
+![Fluxo de Inscrições QueroEdu](fluxo-inscricoes.jpg)
 
-    %% Comment connections
-    COMMENT1 -.-> AC12
-    COMMENT2 -.-> AC13
-    COMMENT3 -.-> AC14
-    COMMENT4 -.-> AC15
-    COMMENT5 -.-> AC16
-    COMMENT6 -.-> AC17
-    COMMENT7 -.-> AC18
-    COMMENT8 -.-> AC19
-    COMMENT9 -.-> AC20
-    COMMENT10 -.-> AC25
-    COMMENT11 -.-> AC26
-    COMMENT12 -.-> IF17
-    COMMENT13 -.-> AC30
+### ⏰ Automação e Cronograma de Execução
 
-    %% 🎨 Node Styling - Pastel Colors for better readability
-    
-    %% 🌼 Pastel Yellow - Start/End nodes
-    classDef yellowNodes fill:#FFF5B7,stroke:#B8860B,stroke-width:2px,color:#2C1810
-    class INICIO,FIM,LEAD yellowNodes
-    
-    %% 🌸 Pastel Pink - Decision (IF) nodes  
-    classDef pinkNodes fill:#F8BBD9,stroke:#C2185B,stroke-width:2px,color:#4A0E2E
-    class IF1,IF2,IF3,IF4,IF5,IF6,IF7,IF8,IF9,IF10,IF11,IF12,IF13,IF14,IF15,IF16,IF17 pinkNodes
-    
-    %% 💚 Pastel Green - Comment nodes
-    classDef greenNodes fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px,color:#1B4332
-    class COMMENT1,COMMENT2,COMMENT3,COMMENT4,COMMENT5,COMMENT6,COMMENT7,COMMENT8,COMMENT9,COMMENT10,COMMENT11,COMMENT12,COMMENT13 greenNodes
-    
-    %% 🔘 Pastel Grey - Action nodes
-    classDef greyNodes fill:#F0F0F0,stroke:#616161,stroke-width:2px,color:#212121
-    class AC1,AC2,AC3,AC4,AC5,AC6,AC7,AC8,AC9,AC10,AC11,AC12,AC13,AC14,AC15,AC16,AC17,AC18,AC19,AC20,AC21,AC22,AC23,AC24,AC25,AC26,AC27,AC28,AC29,AC30,AC31 greyNodes
-```
+O sistema opera através de diversos jobs automatizados com cronogramas específicos:
 
----
+#### 📅 Jobs de Sincronização
+- **Sync Course (Kroton)**: Execução a cada 3h, atualizando dados de cursos semipresenciais
+- **LGPD Sync (Estácio)**: A cada 2h entre 6h-18h, enviando dados para plataforma OneTrust
+- **Course Offers**: Envio diário às 8h de ofertas baseadas em queries específicas
+
+#### 🔄 Jobs de Processamento
+- **Dados de Alunos**: A cada 3h no minuto 30, enviando informações completas para IES
+- **Status Checker**: Verificação contínua do status dos alunos nas IES parceiras
+- **Lead Processing**: A cada 30min para leads com status 'initiated' e 'registered'
+
+#### 💾 Jobs de Persistência
+- **BD Population**: Salvamento contínuo de ordens com status 'paid'
+- **Lead Separation**: Classificação automática por tipo de captação
+- **Subscriber Bot**: Populamento do banco para processamento via crawler
+
+### 🎯 Indicadores de Qualidade
+
+#### ✅ Pontos de Controle
+- Validação de documentação antes da matrícula
+- Verificação de APIs antes do envio de dados
+- Confirmação de recebimento pelas IES
+- Monitoramento de taxa de erro por integração
+
+#### 📈 Métricas de Performance  
+- Taxa de conversão por rota (Digital vs Manual)
+- Tempo médio de processamento por IES
+- Volume de reprocessamento por tipo de erro
+- Eficiência de leads gerados vs convertidos
 
 ## Referências Técnicas
 

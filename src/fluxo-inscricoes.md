@@ -153,7 +153,7 @@ flowchart LR
     AC6 --> AC10
     AC7 --> IF4
     AC8 --> IF7
-    AC9 --> AC7
+    AC9 --> AC8
     AC10 --> AC11
     AC11 --> FIM
     AC12 --> AC13

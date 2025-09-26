@@ -179,8 +179,8 @@ flowchart LR
 
     IF1 -->|Sim| AC1
     IF1 -->|Não| AC10
-    IF2 -->|Sim| IF1
-    IF2 -->|Não| IF2
+    IF2 --> IF1
+    IF2 --> IF3
     IF3 -->|Sim| AC4
     IF3 -->|Não| AC10
     IF4 -->|Sim| IF5

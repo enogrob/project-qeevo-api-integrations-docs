@@ -48,59 +48,98 @@ flowchart LR
     COMMENT12["📝 🤖 IES que usam Crawler: Belas Artes, Kroton Pós, FMU e Anima Presencial e EaD. Usamos o mesmo bot todas as IES"]
     COMMENT13["📝 🔍 Processo de verificação e envio automático"]
 
+    %% Start and End nodes
     INICIO(["🚀 Aluno se interessa pela bolsa (CTA - Quero esta bolsa)"])
     FIM(["✅ Fim"])
     LEAD(["💡 Lead 'Vendido'"])
     
-    IF1{"❓ admission_created"}
-    IF2{"⚙️ Config de Admissão"}
-    IF3{"📝 admission_enroll"}
-    IF4{"💳 Pagamento PEF?"}
-    IF5{"🔐 Admissão Digital?"}
-    IF6{"🔌 API de inscrições aluno?"}
-    IF7{"📋 Documentação correta?"}
-    IF8{"🏫 Kroton"}
-    IF9{"⚠️ Erro no envio?"}
-    IF10{"🔌 API de inscrições aluno?"}
-    IF11{"🎓 Estácio"}
-    IF12{"⚠️ Erro no envio?"}
-    IF13{"🔄 Tipo de Integração?"}
-    IF14{"🔌 API"}
-    IF15{"🏫 Kroton"}
-    IF16{"🎓 Estácio"}
-    IF17{"🤖 Crawler"}
-
-    AC1["✍️ Assina o contrato"]
-    AC2["📤 Envio dos documentos"]
-    AC3["🎯 Processo Seletivo"]
-    AC4["✍️ Assina o contrato"]
-    AC5["📤 Envia dos documentos"]
-    AC6["🎯 Processo Seletivo"]
-    AC7["📋 Cadastro (E-mail, CPF, Nome, Nascimento, Celular e CEP)"]
-    AC8["📄 Aluno envia documentos"]
-    AC9["❌ Rejeitar documentos"]
-    AC10["✏️ Matrícula com dados do aluno"]
-    AC11["🎓 Aluno matriculado"]
-    AC12["⏰ Cron Job 'sync_course'"]
-    AC13["💾 Popula BD de inscrições"]
-    AC14["📤 Envio dos dados do Aluno para IES"]
-    AC15["📊 Popula BD de inscrições"]
-    AC16["📤 Envio dos dados do Aluno para IES"]
-    AC17["🔄 Reenvio dos dados automáticamente"]
-    AC18["💾 Popula BD de inscrições"]
-    AC19["🔐 Envio dos dados do Aluno para Onetrust"]
-    AC20["📤 Envio dos dados do Aluno para IES"]
-    AC21["📞 IES nos avisa"]
-    AC22["✋ Envio manual"]
-    AC23["📄 Aluno recebe comprovante da bolsa"]
-    AC24["🏢 Matrícula no balcão da IES"]
-    AC25["💾 Popula BD de inscrições, mas separa com type captação"]
-    AC26["📤 Envio dos leads para IES"]
-    AC27["💾 Popula BD de inscrições, mas separa com codAgentPdv = 14412833"]
-    AC28["🔐 Envia dados do lead para Onetrust"]
-    AC29["📤 Envio dos dados dos leads para IES"]
-    AC30["💾 Popula banco 'subscribe_bot'"]
-    AC31["📤 Envio do lead para a IES"]
+    %% Subgraph for Initial Process
+    subgraph SG1 ["🚀 Processo Inicial"]
+        AC7["� Cadastro (E-mail, CPF, Nome, Nascimento, Celular e CEP)"]
+        IF4{"💳 Pagamento PEF?"}
+    end
+    
+    %% Subgraph for Digital Admission Flow  
+    subgraph SG2 ["🔐 Fluxo Admissão Digital"]
+        IF5{"🔐 Admissão Digital?"}
+        IF6{"🔌 API de inscrições aluno?"}
+        AC8["📄 Aluno envia documentos"]
+        IF7{"📋 Documentação correta?"}
+        AC9["❌ Rejeitar documentos"]
+    end
+    
+    %% Subgraph for Manual Admission Process
+    subgraph SG3 ["✍️ Processo Manual de Admissão"]
+        IF1{"❓ admission_created"}
+        IF2{"⚙️ Config de Admissão"}
+        AC1["✍️ Assina o contrato"]
+        AC2["📤 Envio dos documentos"]
+        AC3["🎯 Processo Seletivo"]
+        IF3{"📝 admission_enroll"}
+    end
+    
+    %% Subgraph for Alternative Manual Process
+    subgraph SG4 ["✋ Processo Manual Alternativo"]
+        AC4["✍️ Assina o contrato"]
+        AC5["📤 Envia dos documentos"]
+        AC6["🎯 Processo Seletivo"]
+    end
+    
+    %% Subgraph for Final Enrollment
+    subgraph SG5 ["🎓 Finalização da Matrícula"]
+        AC10["✏️ Matrícula com dados do aluno"]
+        AC11["🎓 Aluno matriculado"]
+    end
+    
+    %% Subgraph for Kroton Integration
+    subgraph SG6 ["🏫 Integração Kroton"]
+        IF8{"🏫 Kroton"}
+        AC12["⏰ Cron Job 'sync_course'"]
+        AC13["💾 Popula BD de inscrições"]
+        AC14["📤 Envio dos dados do Aluno para IES"]
+        AC15["📊 Popula BD de inscrições"]
+        AC16["📤 Envio dos dados do Aluno para IES"]
+        IF9{"⚠️ Erro no envio?"}
+        AC17["🔄 Reenvio dos dados automáticamente"]
+    end
+    
+    %% Subgraph for Estácio Integration
+    subgraph SG7 ["🎓 Integração Estácio"]
+        IF11{"🎓 Estácio"}
+        AC18["💾 Popula BD de inscrições"]
+        AC19["🔐 Envio dos dados do Aluno para Onetrust"]
+        AC20["📤 Envio dos dados do Aluno para IES"]
+        IF12{"⚠️ Erro no envio?"}
+        AC21["📞 IES nos avisa"]
+        AC22["✋ Envio manual"]
+    end
+    
+    %% Subgraph for Manual/Fallback Process
+    subgraph SG8 ["📄 Processo Manual/Comprovante"]
+        IF10{"🔌 API de inscrições aluno?"}
+        AC23["📄 Aluno recebe comprovante da bolsa"]
+        AC24["🏢 Matrícula no balcão da IES"]
+    end
+    
+    %% Subgraph for Lead Generation
+    subgraph SG9 ["📋 Geração de Leads"]
+        IF13{"🔄 Tipo de Integração?"}
+        IF14{"🔌 API"}
+        IF15{"🏫 Kroton"}
+        IF16{"🎓 Estácio"}
+        IF17{"🤖 Crawler"}
+    end
+    
+    %% Subgraph for Lead Processing
+    subgraph SG10 ["📤 Processamento de Leads"]
+        AC25["💾 Popula BD de inscrições, mas separa com type captação"]
+        AC26["📤 Envio dos leads para IES"]
+        AC27["💾 Popula BD de inscrições, mas separa com codAgentPdv = 14412833"]
+        AC28["🔐 Envia dados do lead para Onetrust"]
+        AC29["📤 Envio dos dados dos leads para IES"]
+        AC30["💾 Popula banco 'subscribe_bot'"]
+        AC31["📤 Envio do lead para a IES"]
+    end
 
     %% Additional nodes for completeness
 

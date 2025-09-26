@@ -34,13 +34,13 @@ O sistema suporta múltiplas formas de integração:
 ### 🔧 Integrações Disponíveis
 
 #### 🏫 Integração Kroton 
-Para detalhes completos sobre a integração Kroton, consulte: [Kroton Lead Integration](kroton-lead-integration.md)
+Para detalhes completos sobre a integração Kroton, consulte: [Kroton Lead Integration](https://github.com/quero-edu/kroton-lead-integration/blob/master/__docs__/kroton-lead-integration.md)
 - **Tecnologia**: API REST + OAuth2 + Elasticsearch
 - **Características**: Rate limiting (100 req/5min), sincronização de cursos automática
 - **Jobs**: `sync_course`, populamento de BD, envio automático de dados
 
 #### 🎓 Integração Estácio
-Para detalhes completos sobre a integração Estácio, consulte: [Estácio Lead Integration](estacio-lead-integration.md)
+Para detalhes completos sobre a integração Estácio, consulte: [Estácio Lead Integration](https://github.com/quero-edu/estacio-lead-integration/tree/master/__docs__/estacio-lead-integration.md)
 - **Compliance**: Integração obrigatória com OneTrust (LGPD)
 - **Tecnologia**: API Direta + OneTrust
 - **Características**: Processamento em chunks, retry automático
@@ -118,7 +118,7 @@ O sistema opera através de diversos jobs automatizados com cronogramas específ
 
 ## Referências Técnicas
 
-- **[Kroton Lead Integration](kroton-lead-integration.md)**: Documentação completa da integração com APIs Kroton, incluindo OAuth2, Elasticsearch e processamento de matrículas
-- **[Estácio Lead Integration](estacio-lead-integration.md)**: Documentação detalhada da integração Estácio com compliance LGPD via OneTrust
+- **[Kroton Lead Integration](https://github.com/quero-edu/kroton-lead-integration/blob/master/__docs__/kroton-lead-integration.md)**: Documentação completa da integração com APIs Kroton, incluindo OAuth2, Elasticsearch e processamento de matrículas
+- **[Estácio Lead Integration](https://github.com/quero-edu/estacio-lead-integration/tree/master/__docs__/estacio-lead-integration.md)**: Documentação detalhada da integração Estácio com compliance LGPD via OneTrust
 - **Databricks**: Importação diária de dados de alunos e ordens
 - **APIs de Terceiros**: Integrações diretas com sistemas das IES parceiras

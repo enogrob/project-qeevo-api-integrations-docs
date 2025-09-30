@@ -565,7 +565,7 @@ Authorization: Bearer {token}
 | Ambiente | URL Base |
 |----------|----------|
 | Staging | `https://captacao-aks-stg.krthomolog.com.br/elasticlayer/middleware/oferta/_search` |
-| Production | `https://captacao-akS.kroton.com.br/elasticlayer/middleware/oferta/_search` |
+| Production | `https://captacao-aks.kroton.com.br/elasticlayer/middleware/oferta/_search` |
 
 ## Regras de negócio por integração ativa
 
@@ -860,7 +860,7 @@ interface FollowUp {
 
 **Consultas Úteis no Banco**:
 ```sql
--- Status atual das subscriptions por período
+-- Status atual das subscriptions por período de tempo
 SELECT status, COUNT(*) as quantidade 
 FROM subscriptions 
 WHERE created_at >= CURRENT_DATE - INTERVAL '7 days'
@@ -986,7 +986,7 @@ R: Monitore o canal Slack configurado. Notificações regulares de execução de
 - Issues de deployment e containers
 - Configuração de monitoramento e alertas
 
-## References
+## Referências
 
 ### 📚 Documentação Técnica
 

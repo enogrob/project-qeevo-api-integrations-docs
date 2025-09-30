@@ -53,9 +53,9 @@ Características principais incluem suporte para diferentes modalidades de curso
 ```mermaid
 flowchart TD
     subgraph "🎯 Quero Educação Ecosystem"
-        DB[("`�️ **PostgreSQL**
+        DB[("`💾 **PostgreSQL**
         Database`")] 
-        DATABRICKS["`�📊 **Databricks**
+        DATABRICKS["`📊 **Databricks**
         Daily Orders Import`"]
     end
     
@@ -87,14 +87,14 @@ flowchart TD
     subgraph "🎓 Estácio Services"
         ONETRUST["`🛡️ **OneTrust API**
         LGPD Compliance`"]
-        ESTACIO_API["`�️ **Estácio API**
+        ESTACIO_API["`🏛️ **Estácio API**
         Enrollment System`"]
     end
     
-    subgraph "� External Services"
+    subgraph "🌐 External Services"
         SLACK["`💬 **Slack**
         Notifications`"]
-        LOCATION["`� **Location Service**
+        LOCATION["`📍 **Location Service**
         Municipality & District`"]
     end
 
@@ -460,13 +460,20 @@ interface OneTrustPayload {
   
   // Atributos padrão extraídos dos dados do aluno:
   // - Nome completo
-  // - Data de nascimento
+  // - Data de nascimento  
   // - CEP
   // - Endereço completo
   // - Email
   // - Telefone
   // - Outros dados pessoais conforme necessário
 }
+```
+
+**Dados extraídos da Subscription para LGPD:**
+```typescript
+interface SubscriptionLGPDData {
+  name: string;
+  cpf: string;
   birthday: string; // formato: YYYY-MM-DD
   email: string;
   area_code: string;
@@ -488,59 +495,6 @@ interface OneTrustPayload {
   metadata: string; // JSON string
   order_id?: number;
   order_checkout_step?: string; // 'paid' | outros
-}
-```
-
-**Output (Estácio API payload):**
-```typescript
-interface EstacioRegistrationPayload {
-  codFormaIngresso: string; // '24' padrão, '2' segunda graduação, '15' técnico
-  codCampus: number;
-  numHabilitacao: number;
-  codTurno: string;
-  indModalidade: string; // 'P' presencial, 'E' EaD
-  nomeCandidato: string;
-  enderecoEmail: string;
-  numTelefoneCelular: string;
-  cpfCandidato: string; // apenas números
-  dataNascimento: string; // formato: DD/MM/YYYY
-  cepCandidato: string;
-  siglaUF: string;
-  endCandidato: string;
-  numEndCandidato: string;
-  codMunicipio: number;
-  codBairro: number;
-  codAgentePdv: number; // 11379 se 'paid', 14412833 caso contrário
-  codCurso: number;
-  // Campos ENEM (sempre null para esta integração)
-  numInscEnem: null;
-  anoEnem: null;
-  numNotaCienciasHumanas: null;
-  numNotaCienciasNatureza: null;
-  numNotaLinguagens: null;
-  numNotaMatematica: null;
-  numNotaRedacao: null;
-}
-```
-
-### syncLGPDQB / syncLGPDQC (Conformidade LGPD)
-
-**OneTrust API payload:**
-```typescript
-interface OneTrustPayload {
-  documento: string; // CPF apenas números
-  pontoColetaToken: string;
-  finalidades: Array<{
-    id: string;
-    preferencias: Array<{
-      idTopico: string;
-    }>;
-  }>;
-  atributos: Array<{
-    atributo: string;
-    valor: string;
-  }>;
-  // Atributos padrão: Nome, Data de Nascimento, CEP, Endereço, etc.
 }
 ```
 
@@ -948,13 +902,6 @@ npm run dev:syncLGPDQB
 - Problemas de conectividade
 - Falhas de banco de dados
 - Issues de deployment/containers
-- **Trigger:** Importação inicial do Databricks
-- **Estado inicial:** `subscription.status = 'to_sync_lgpd'`
-
-### PROCESSING
-- **Definição:** Status implícito durante execução dos jobs
-- **Contexto:** Entre início do job e conclusão (sucesso/erro)
-- **Duração:** Temporário durante processamento do chunk
 
 ## References
 
@@ -996,11 +943,14 @@ npm run dev:syncLGPDQB
 ### 🛠️ Tecnologias e Dependências
 
 - **Node.js** `14.17.6` - Runtime JavaScript
-- **TypeScript** `4.8.x` - Linguagem de programação
-- **TypeORM** `0.3.x` - ORM para PostgreSQL
-- **PostgreSQL** `13.x` - Banco de dados principal
-- **Docker** - Containerização
-- **Cron Jobs** - Agendamento de tarefas
+- **TypeScript** `4.8.x` - Linguagem de programação com tipagem estática
+- **TypeORM** `0.3.x` - ORM para PostgreSQL com suporte a migrations
+- **PostgreSQL** `13.x` - Banco de dados principal para persistência
+- **Docker** - Containerização e deploy
+- **Babel** - Transpilação de código JavaScript/TypeScript
+- **Cron Jobs** - Agendamento automatizado de tarefas
+- **Axios** - Cliente HTTP para chamadas de API
+- **Winston** - Sistema de logging estruturado
 
 ### 📞 Contatos e Suporte
 
@@ -1015,7 +965,3 @@ npm run dev:syncLGPDQB
 - **[API Standards](https://docs.quero.com/api-standards)** - Padrões de API da empresa
 - **[LGPD Guidelines](https://docs.quero.com/lgpd)** - Diretrizes de proteção de dados
 - **[Integration Patterns](https://docs.quero.com/patterns)** - Padrões de integração utilizados
-  - TypeORM  
-  - PostgreSQL
-  - Docker
-  - Babel para transpilação

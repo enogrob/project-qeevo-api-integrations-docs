@@ -10,6 +10,7 @@ mode: "agent"
 
 **Source Materials**:
 - Repository: #folder:src/quero-deals
+- Docs: #folder:src/quero-deals/docs
 - Main README: #file:src/quero-deals/README.md
 - Models: #folder:src/quero-deals/app/models
 - Controllers: #folder:src/quero-deals/app/controllers
